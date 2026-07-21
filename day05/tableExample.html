@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        table {
+            border : 2px solid #397094;
+            border-collapse : collapse; /** 칸 사이 여백 제거 **/
+            width : 70%;
+        }
+
+        th, td {
+            border : 2px solid #397094;
+        }   
+        
+        tbody tr:nth-child(2n+1) {
+            background-color : #d9ebff;
+        }   
+
+    </style>
+</head>
+<body>
+    <table>
+        <colgroup>
+            <col style="width: 9%;">
+            <col style="width: 19%;">
+            <col style="width: 9%;">
+            <col style="width: 8%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>날짜</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr>
+                <td>1</td>
+                <td>웹 프로그램이란🙄</td>
+                <td>2026.07.21</td>
+                <td>12</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>시간의 속도⏰</td>
+                <td>2022.07.04</td>
+                <td>22</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>AI 반란⚡</td>
+                <td>2099.12.31</td>
+                <td>44</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+
+
+이름 : khnk30208
+이메일 :  khnk30208@gmail.com
+인증키 : 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
+
+글로벌 설정
+
+git config --global user.name "khnk30208"
+git config --global user.email "khnk30208@gmail.com"
+
+자동 줄 바꿈 문자 설정하기
+
+windows 설정
+    git config --global core.autocrlf true
+
+mac 설정
+    git config --global core.autocrlf input
+
+
+github 인증팝업 출력을 위한 설정
+
+windows
+  git config --global credential.helper manager
+
+mac
+ git config --global credential.helper store

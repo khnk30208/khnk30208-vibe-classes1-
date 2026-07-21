@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a3c 0%, #ff6a00 100%);
+            font-family: "맑은 고딕", "Segoe UI", sans-serif;
+        }
+
+        .login-wrap {
+            width: 380px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .login-header {
+            padding: 40px 40px 20px 40px;
+            text-align: center;
+        }
+
+        .login-header .logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a3c, #ff6a00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .login-header h1 {
+            margin: 0 0 6px 0;
+            font-size: 24px;
+            color: #222222;
+        }
+
+        .login-header p {
+            margin: 0;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        .login-form {
+            padding: 10px 40px 40px 40px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+        }
+
+        .field input[type="text"],
+        .field input[type="password"] {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #14b8a6;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #e8d4bf;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .field input[type="text"]:focus,
+        .field input[type="password"]:focus {
+            outline: none;
+            border-color: #0d9488;
+            background-color: #f0e2d1;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #777777;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .options a {
+            color: #ff6a00;
+            text-decoration: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9a3c, #ff6a00);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: #bbbbbb;
+            font-size: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #ececec;
+        }
+
+        .divider span {
+            padding: 0 12px;
+        }
+
+        .sns-login {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .sns-login button {
+            flex: 1;
+            padding: 11px 0;
+            border: 1px solid #14b8a6;
+            border-radius: 8px;
+            background-color: #ffffff;
+            font-size: 13px;
+            color: #555555;
+            cursor: pointer;
+        }
+
+        .sns-login button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .signup {
+            text-align: center;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        .signup a {
+            color: #ff6a00;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="login-header">
+            <div class="logo">L</div>
+            <h1>다시 오신 것을 환영해요</h1>
+            <p>계정 정보를 입력하고 로그인하세요</p>
+        </div>
+        <div class="login-form">
+            <form>
+                <div class="field">
+                    <label for="userId">아이디</label>
+                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요">
+                </div>
+                <div class="field">
+                    <label for="userPw">비밀번호</label>
+                    <input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="options">
+                    <label><input type="checkbox" id="keepLogin" name="keepLogin"> 로그인 상태 유지</label>
+                    <a href="#">비밀번호 찾기</a>
+                </div>
+                <button type="submit" class="login-btn">로그인</button>
+            </form>
+
+            <div class="divider"><span>또는</span></div>
+
+            <div class="sns-login">
+                <button type="button">Google</button>
+                <button type="button">Kakao</button>
+                <button type="button">Naver</button>
+            </div>
+
+            <div class="signup">
+                계정이 없으신가요? <a href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
