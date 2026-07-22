@@ -2,8 +2,6 @@
 
 이름 : khnk30208
 이메일 :  khnk30208@gmail.com
-인증키 : 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
-
 글로벌 설정
 
 git config --global user.name "khnk30208"
