@@ -7,27 +7,26 @@
 </head>
 
 <body>
-    <p>점수 : <span id="score">0</span></p>
-    <p>결과 : <span id="result">0</span></p>
+    <p>점수 : <span id="score"></span></p>
+    <p id="result"></p>
 </body>
 <script>
 
     const d = document; // html 문서 객체
 
-    const score = Math.floor( Math.random() * 100 ) + 1; // 1~100 사이의 난수 발생
+    const score = Math.floor( Math.random() * 100 ) + 1; 
     
     //html 영역을 가져오기.
     spanV = d.getElementById('score');
     pTag = d.getElementById('result');
 
     if(score >= 50) {
-        spanV.innerHTML = '합격';
-        pTag.innerHTML = score;
+        spanV.append('합격');
+        pTag.append(score);
     }else {
-        spanV.innerHTML = '불합격';
-        pTag.innerHTML = score;
+        spanV.append('불합격');
+        pTag.append(score);
     }
-
 
 
 </script>
