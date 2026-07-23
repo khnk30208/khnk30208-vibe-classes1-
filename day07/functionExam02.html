@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="val">최대값 : </label>
+    <input type="text" id="val">
+    <button type="button" onclick="printl()">출력</button>
+</body>
+<script>
+
+    function print()
+    {
+        const val = document.querySelector('#val').value;
+        if(val == null || val.trim().length === 0){
+            alert('값 입력하세요.');
+            return;
+        }else {
+            for(let i=1; i<=val; i++){
+                console.log(i);
+            }
+        }   
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="val">최대값 : </label>
+    <input type="text" id="val">
+    <button type="button" onclick="print()">출력</button>
+</body>
+<script>
+
+    function print() 
+    {   //querySelector는 css 선택지를 이용한 html 가져오기
+        //선택은 CSS 와 동일
+        // id 는 #id, class는 .class
+        const val = document.getElementById('val').value;
+        const maxVal = makeMaxVal(val)
+        alert('출력' + maxVal);
+
+    }        
+
+    function makeMaxVal(maxiumVal) {
+        const val = Math.floor (Math.random() * maxiumVal) + 1;
+        return val;
+    }
+
+</script>    
+</html>
