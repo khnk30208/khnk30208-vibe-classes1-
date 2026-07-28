@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        var numbers = [];
+        var evenNumbers = [];
+        var evenCount = 0;
+        var evenSum = 0;
+
+        for (var i = 0; i < 10; i++) {
+            numbers[i] = Math.floor(Math.random() * 200) + 1;   // var 제거
+            if (numbers[i] % 2 === 0) {
+                evenNumbers[evenCount] = numbers[i];            // 별도 배열에 담기
+                evenCount++;
+                evenSum = evenSum + numbers[i];
+            }
+        }
+
+        console.log("생성된 숫자 10개 :", numbers);
+        console.log("짝수만 추출 :", evenNumbers);
+        console.log("짝수의 합계 :", evenSum);
+    </script>
+</body>
+</html>
