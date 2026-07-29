@@ -1,0 +1,276 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --btn-font: 1.05rem;          /* 버튼 폰트 크기 (입력창 폰트는 이 값의 90%) */
+  --ink: #1e293b;               /* 기본 글자색 */
+  --ink-soft: #64748b;          /* 보조 글자색 */
+  --brand-1: #3b82f6;
+  --brand-2: #6366f1;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-brd: rgba(255, 255, 255, 0.75);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;              /* 화면 중앙 정렬 */
+  padding: 40px 20px;
+  font-family: "Pretendard", "Segoe UI", "Malgun Gothic", "맑은 고딕", system-ui, sans-serif; /* 고딕체 */
+  color: var(--ink);
+  /* 밝은 계열의 생동감 있는 오로라 배경 */
+  background:
+    radial-gradient(circle at 18% 22%, rgba(110, 231, 183, 0.45), transparent 42%),
+    radial-gradient(circle at 82% 78%, rgba(253, 164, 175, 0.40), transparent 42%),
+    linear-gradient(135deg, #e0f2fe 0%, #ede9fe 55%, #fae8ff 100%);
+}
+
+/* 배경을 부드럽게 흐르는 컬러 블롭 (오로라 효과) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+body::before {
+  width: 45vmax;
+  height: 45vmax;
+  top: -12vmax;
+  left: -10vmax;
+  background: radial-gradient(circle, #60a5fa, transparent 70%);
+  animation: drift1 18s ease-in-out infinite alternate;
+}
+
+body::after {
+  width: 40vmax;
+  height: 40vmax;
+  bottom: -14vmax;
+  right: -8vmax;
+  background: radial-gradient(circle, #e879f9, transparent 70%);
+  animation: drift2 22s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(8vmax, 6vmax); }
+}
+
+@keyframes drift2 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-8vmax, -6vmax); }
+}
+
+/* ---------- 유리(글래스) 패널 ---------- */
+.container {
+  width: 100%;
+  max-width: 440px;
+  padding: 32px 28px;
+  text-align: center;                   /* 기본 중앙 정렬 */
+  border-radius: 28px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid var(--glass-brd);
+  box-shadow: 0 20px 50px rgba(31, 38, 135, 0.18);
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+
+/* ---------- 검색 영역 ---------- */
+.search-box {
+  display: flex;
+  gap: 10px;
+}
+
+#cityInput {
+  flex: 1;
+  padding: 14px 20px;
+  font-size: calc(var(--btn-font) * 0.9);   /* 버튼 크기의 90% */
+  font-family: inherit;
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 16px;                  /* 부드러운 라운딩 */
+  outline: none;
+  background: rgba(255, 255, 255, 0.75);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+#cityInput::placeholder { color: #94a3b8; }
+
+#cityInput:focus {
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+}
+
+.search-btn {
+  padding: 14px 22px;
+  font-size: var(--btn-font);
+  font-family: inherit;
+  font-weight: 700;
+  color: #fff;                          /* 흰색 글자 */
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%); /* 푸른색 그라데이션 */
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+  transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
+}
+
+.search-btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.45);
+}
+
+.search-btn:active {
+  transform: translateY(1px);
+}
+
+/* ---------- 날씨 카드 ---------- */
+.weather-card {
+  margin-top: 26px;
+  animation: fadeUp 0.45s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.city {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.description {
+  margin-top: 2px;
+  font-size: 1rem;
+  color: var(--ink-soft);
+}
+
+.card-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.weather-icon {
+  width: 130px;
+  height: 130px;
+  margin-bottom: -10px;
+  filter: drop-shadow(0 8px 16px rgba(37, 99, 235, 0.25));
+}
+
+.temp {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #2563eb;                       /* 폴백: 그라데이션 글자 미지원 시 단색 표시 */
+}
+
+/* 그라데이션 글자 (지원 브라우저에서만 적용) */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .temp {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.temp-range {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pill.max { background: rgba(244, 63, 94, 0.12); color: #e11d48; }
+.pill.min { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+
+/* ---------- 상세 정보 (벤토 그리드) ---------- */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(31, 38, 135, 0.15);
+}
+
+.tile-icon { font-size: 1.4rem; line-height: 1; }
+
+.tile-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.tile-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.tile-value small {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.arrow {
+  display: inline-block;
+  color: #2563eb;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- 상태 메시지 ---------- */
+.message {
+  margin-top: 18px;
+  min-height: 1.2em;
+  font-size: 0.92rem;
+  color: #475569;
+}

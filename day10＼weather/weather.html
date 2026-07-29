@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>날씨 검색</title>
+<link rel="stylesheet" href="weather.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🌤️ 날씨 검색</h1>
+
+    <form class="search-box" id="searchForm">
+      <input type="text" id="cityInput" placeholder="도시 이름 입력 (예: Seoul)" autocomplete="off">
+      <button type="submit" class="search-btn">검색</button>
+    </form>
+
+    <div class="weather-card" id="weatherCard" hidden></div>
+
+    <p class="message" id="message"></p>
+  </div>
+
+<script src="weather.js"></script>
+</body>
+</html>
