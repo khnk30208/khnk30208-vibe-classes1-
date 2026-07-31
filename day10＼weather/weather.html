@@ -4,20 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>날씨 검색</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri@2.40.4/dist/galmuri.css">
 <link rel="stylesheet" href="weather.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🌤️ 날씨 검색</h1>
+  <div class="pixel-sky" aria-hidden="true"></div>
 
-    <form class="search-box" id="searchForm">
-      <input type="text" id="cityInput" placeholder="도시 이름 입력 (예: Seoul)" autocomplete="off">
-      <button type="submit" class="search-btn">검색</button>
-    </form>
+  <div class="frame-wrap">
+    <span class="corner-chevron chevron-tl" aria-hidden="true"></span>
+    <span class="corner-chevron chevron-tr" aria-hidden="true"></span>
+    <span class="corner-chevron chevron-bl" aria-hidden="true"></span>
+    <span class="corner-chevron chevron-br" aria-hidden="true"></span>
 
-    <div class="weather-card" id="weatherCard" hidden></div>
+    <div class="container">
+      <h1>☀️ 날씨 검색</h1>
 
-    <p class="message" id="message"></p>
+      <form class="search-box" id="searchForm">
+        <input type="text" id="cityInput" placeholder="도시 이름 입력 (예: Seoul)" autocomplete="off">
+        <button type="submit" class="search-btn">검색</button>
+      </form>
+
+      <div class="weather-card" id="weatherCard" hidden></div>
+
+      <p class="message" id="message"></p>
+    </div>
   </div>
 
 <script src="weather.js"></script>

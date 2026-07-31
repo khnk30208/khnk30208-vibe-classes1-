@@ -6,3 +6,4 @@ bin/
 .gradle
 .mvn
 .settings
+keys.txt

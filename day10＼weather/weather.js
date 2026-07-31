@@ -33,6 +33,14 @@
     weatherCard.hidden = true;
   }
 
+  // ==================== HTML 이스케이프 ====================
+  // API 응답값(도시명, 날씨 설명 등)을 innerHTML에 그대로 넣지 않고
+  // 특수문자를 이스케이프해서 삽입한다 (마크업 깨짐/삽입 방지).
+  function escapeHtml(value) {
+    const escapeMap = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+    return String(value).replace(/[&<>"']/g, (ch) => escapeMap[ch]);
+  }
+
   // ==================== 날씨 카드 렌더링 ====================
   function renderWeather(data) {
     const info = data.weather[0];
@@ -41,14 +49,18 @@
     const deg = typeof wind.deg === "number" ? wind.deg : 0;
     const speed = typeof wind.speed === "number" ? wind.speed : 0;
 
-    const iconUrl = `https://openweathermap.org/img/wn/${info.icon}@4x.png`;
-    const country = data.sys && data.sys.country ? `, ${data.sys.country}` : "";
+    // API 응답에서 온 문자열은 모두 이스케이프한 뒤 사용한다.
+    const cityName = escapeHtml(data.name);
+    const description = escapeHtml(info.description);
+    // 작은 원본(50px) 아이콘을 확대 표시해 픽셀 느낌을 살림 (CSS의 image-rendering: pixelated 와 함께 사용)
+    const iconUrl = `https://openweathermap.org/img/wn/${escapeHtml(info.icon)}.png`;
+    const country = data.sys && data.sys.country ? `, ${escapeHtml(data.sys.country)}` : "";
 
     weatherCard.innerHTML = `
-      <div class="city">${data.name}${country}</div>
-      <div class="description">${info.description}</div>
+      <div class="city">${cityName}${country}</div>
+      <div class="description">${description}</div>
       <div class="card-main">
-        <img class="weather-icon" src="${iconUrl}" alt="${info.description}">
+        <img class="weather-icon" src="${iconUrl}" alt="${description}">
         <div class="temp">${Math.round(main.temp)}°</div>
       </div>
       <div class="temp-range">

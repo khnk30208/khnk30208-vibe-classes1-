@@ -5,139 +5,222 @@
 }
 
 :root {
-  --btn-font: 1.05rem;          /* 버튼 폰트 크기 (입력창 폰트는 이 값의 90%) */
-  --ink: #1e293b;               /* 기본 글자색 */
-  --ink-soft: #64748b;          /* 보조 글자색 */
-  --brand-1: #3b82f6;
-  --brand-2: #6366f1;
-  --glass: rgba(255, 255, 255, 0.55);
-  --glass-brd: rgba(255, 255, 255, 0.75);
+  --btn-font: 17px;                 /* 버튼 폰트 크기 (입력창 폰트는 이 값의 90%) */
+  --pixel-font: "Galmuri11", "Galmuri9", "Courier New", monospace;
+
+  /* 하늘 */
+  --sky-top: #1f9ee0;
+
+  /* 돌 프레임 */
+  --stone-0: #05060a;               /* 가장 바깥 라인 */
+  --stone-1: #1b1f2e;               /* 패널 바탕 */
+  --ring-mid: #333a5c;              /* 강철빛 라인 */
+
+  /* 포인트 색 */
+  --cyan: #8feaff;
+  --cyan-dim: #3fa6c9;
+  --cyan-glow: rgba(110, 225, 255, 0.55);
+  --purple: #cda6ff;
+  --purple-dim: #8a63c9;
+  --purple-glow: rgba(190, 140, 255, 0.5);
+
+  --ink: #eef3ff;                   /* 기본 글자색(흰색 계열) */
+  --ink-dim: #8fa0c4;               /* 보조 글자색 */
 }
 
 body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;              /* 화면 중앙 정렬 */
+  justify-content: center;          /* 화면 중앙 정렬 */
   padding: 40px 20px;
-  font-family: "Pretendard", "Segoe UI", "Malgun Gothic", "맑은 고딕", system-ui, sans-serif; /* 고딕체 */
+  font-family: var(--pixel-font), "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
   color: var(--ink);
-  /* 밝은 계열의 생동감 있는 오로라 배경 */
-  background:
-    radial-gradient(circle at 18% 22%, rgba(110, 231, 183, 0.45), transparent 42%),
-    radial-gradient(circle at 82% 78%, rgba(253, 164, 175, 0.40), transparent 42%),
-    linear-gradient(135deg, #e0f2fe 0%, #ede9fe 55%, #fae8ff 100%);
+  background: var(--sky-top);
+  overflow: hidden;
+  position: relative;
 }
 
-/* 배경을 부드럽게 흐르는 컬러 블롭 (오로라 효과) */
-body::before,
-body::after {
-  content: "";
+/* ---------- 픽셀 하늘(다채로운 구름 배경) ---------- */
+.pixel-sky {
   position: fixed;
-  border-radius: 50%;
-  filter: blur(70px);
-  z-index: -1;
+  inset: -14px;
+  z-index: 0;
+  overflow: hidden;
   pointer-events: none;
-  opacity: 0.65;
+  background-color: var(--sky-top);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='900' viewBox='0 0 1400 900'%3E%3Crect x='159' y='631' width='121' height='11' fill='%2386c7e6'/%3E%3Crect x='148' y='642' width='143' height='11' fill='%2386c7e6'/%3E%3Crect x='148' y='653' width='165' height='11' fill='%2386c7e6'/%3E%3Crect x='115' y='664' width='209' height='11' fill='%2386c7e6'/%3E%3Crect x='104' y='675' width='220' height='11' fill='%2386c7e6'/%3E%3Crect x='104' y='686' width='242' height='11' fill='%2386c7e6'/%3E%3Crect x='93' y='697' width='264' height='11' fill='%2386c7e6'/%3E%3Crect x='82' y='708' width='275' height='11' fill='%2386c7e6'/%3E%3Crect x='82' y='719' width='275' height='11' fill='%2386c7e6'/%3E%3Crect x='82' y='730' width='275' height='11' fill='%2386c7e6'/%3E%3Crect x='93' y='741' width='253' height='11' fill='%2386c7e6'/%3E%3Crect x='104' y='752' width='220' height='11' fill='%2386c7e6'/%3E%3Crect x='148' y='620' width='121' height='11' fill='%23f7f6ee'/%3E%3Crect x='137' y='631' width='143' height='11' fill='%23f7f6ee'/%3E%3Crect x='137' y='642' width='165' height='11' fill='%23f7f6ee'/%3E%3Crect x='104' y='653' width='209' height='11' fill='%23f7f6ee'/%3E%3Crect x='93' y='664' width='220' height='11' fill='%23f7f6ee'/%3E%3Crect x='93' y='675' width='242' height='11' fill='%23f7f6ee'/%3E%3Crect x='82' y='686' width='264' height='11' fill='%23f7f6ee'/%3E%3Crect x='71' y='697' width='275' height='11' fill='%23f7f6ee'/%3E%3Crect x='71' y='708' width='275' height='11' fill='%23f7f6ee'/%3E%3Crect x='71' y='719' width='275' height='11' fill='%23f7f6ee'/%3E%3Crect x='82' y='730' width='253' height='11' fill='%23f7f6ee'/%3E%3Crect x='93' y='741' width='220' height='11' fill='%23f7f6ee'/%3E%3Crect x='71' y='697' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='82' y='686' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='93' y='664' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='104' y='653' width='33' height='11' fill='%23ffffff'/%3E%3Crect x='137' y='631' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='148' y='620' width='121' height='11' fill='%23ffffff'/%3E%3Crect x='269' y='631' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='280' y='642' width='22' height='11' fill='%23ffffff'/%3E%3Crect x='302' y='653' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='313' y='675' width='22' height='11' fill='%23ffffff'/%3E%3Crect x='335' y='686' width='11' height='11' fill='%23ffffff'/%3E%3Crect x='951' y='49' width='99' height='9' fill='%2386c7e6'/%3E%3Crect x='942' y='58' width='117' height='9' fill='%2386c7e6'/%3E%3Crect x='942' y='67' width='135' height='9' fill='%2386c7e6'/%3E%3Crect x='915' y='76' width='171' height='9' fill='%2386c7e6'/%3E%3Crect x='906' y='85' width='180' height='9' fill='%2386c7e6'/%3E%3Crect x='906' y='94' width='198' height='9' fill='%2386c7e6'/%3E%3Crect x='897' y='103' width='216' height='9' fill='%2386c7e6'/%3E%3Crect x='888' y='112' width='225' height='9' fill='%2386c7e6'/%3E%3Crect x='888' y='121' width='225' height='9' fill='%2386c7e6'/%3E%3Crect x='888' y='130' width='225' height='9' fill='%2386c7e6'/%3E%3Crect x='897' y='139' width='207' height='9' fill='%2386c7e6'/%3E%3Crect x='906' y='148' width='180' height='9' fill='%2386c7e6'/%3E%3Crect x='942' y='40' width='99' height='9' fill='%23f7f6ee'/%3E%3Crect x='933' y='49' width='117' height='9' fill='%23f7f6ee'/%3E%3Crect x='933' y='58' width='135' height='9' fill='%23f7f6ee'/%3E%3Crect x='906' y='67' width='171' height='9' fill='%23f7f6ee'/%3E%3Crect x='897' y='76' width='180' height='9' fill='%23f7f6ee'/%3E%3Crect x='897' y='85' width='198' height='9' fill='%23f7f6ee'/%3E%3Crect x='888' y='94' width='216' height='9' fill='%23f7f6ee'/%3E%3Crect x='879' y='103' width='225' height='9' fill='%23f7f6ee'/%3E%3Crect x='879' y='112' width='225' height='9' fill='%23f7f6ee'/%3E%3Crect x='879' y='121' width='225' height='9' fill='%23f7f6ee'/%3E%3Crect x='888' y='130' width='207' height='9' fill='%23f7f6ee'/%3E%3Crect x='897' y='139' width='180' height='9' fill='%23f7f6ee'/%3E%3Crect x='879' y='103' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='888' y='94' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='897' y='76' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='906' y='67' width='27' height='9' fill='%23ffffff'/%3E%3Crect x='933' y='49' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='942' y='40' width='99' height='9' fill='%23ffffff'/%3E%3Crect x='1041' y='49' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1050' y='58' width='18' height='9' fill='%23ffffff'/%3E%3Crect x='1068' y='67' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1077' y='85' width='18' height='9' fill='%23ffffff'/%3E%3Crect x='1095' y='94' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='640' y='270' width='40' height='10' fill='%2386c7e6'/%3E%3Crect x='690' y='270' width='20' height='10' fill='%2386c7e6'/%3E%3Crect x='610' y='280' width='110' height='10' fill='%2386c7e6'/%3E%3Crect x='600' y='290' width='140' height='10' fill='%2386c7e6'/%3E%3Crect x='590' y='300' width='160' height='10' fill='%2386c7e6'/%3E%3Crect x='590' y='310' width='160' height='10' fill='%2386c7e6'/%3E%3Crect x='590' y='320' width='160' height='10' fill='%2386c7e6'/%3E%3Crect x='590' y='330' width='160' height='10' fill='%2386c7e6'/%3E%3Crect x='590' y='340' width='160' height='10' fill='%2386c7e6'/%3E%3Crect x='630' y='260' width='40' height='10' fill='%23f7f6ee'/%3E%3Crect x='680' y='260' width='20' height='10' fill='%23f7f6ee'/%3E%3Crect x='600' y='270' width='110' height='10' fill='%23f7f6ee'/%3E%3Crect x='590' y='280' width='140' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='290' width='160' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='300' width='160' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='310' width='160' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='320' width='160' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='330' width='160' height='10' fill='%23f7f6ee'/%3E%3Crect x='580' y='290' width='10' height='10' fill='%23ffffff'/%3E%3Crect x='590' y='280' width='10' height='10' fill='%23ffffff'/%3E%3Crect x='600' y='270' width='30' height='10' fill='%23ffffff'/%3E%3Crect x='630' y='260' width='40' height='10' fill='%23ffffff'/%3E%3Crect x='670' y='270' width='10' height='10' fill='%23ffffff'/%3E%3Crect x='680' y='260' width='20' height='10' fill='%23ffffff'/%3E%3Crect x='700' y='270' width='10' height='10' fill='%23ffffff'/%3E%3Crect x='710' y='280' width='20' height='10' fill='%23ffffff'/%3E%3Crect x='730' y='290' width='10' height='10' fill='%23ffffff'/%3E%3Crect x='1152' y='489' width='36' height='9' fill='%2386c7e6'/%3E%3Crect x='1197' y='489' width='18' height='9' fill='%2386c7e6'/%3E%3Crect x='1125' y='498' width='99' height='9' fill='%2386c7e6'/%3E%3Crect x='1116' y='507' width='126' height='9' fill='%2386c7e6'/%3E%3Crect x='1107' y='516' width='144' height='9' fill='%2386c7e6'/%3E%3Crect x='1107' y='525' width='144' height='9' fill='%2386c7e6'/%3E%3Crect x='1107' y='534' width='144' height='9' fill='%2386c7e6'/%3E%3Crect x='1107' y='543' width='144' height='9' fill='%2386c7e6'/%3E%3Crect x='1107' y='552' width='144' height='9' fill='%2386c7e6'/%3E%3Crect x='1143' y='480' width='36' height='9' fill='%23f7f6ee'/%3E%3Crect x='1188' y='480' width='18' height='9' fill='%23f7f6ee'/%3E%3Crect x='1116' y='489' width='99' height='9' fill='%23f7f6ee'/%3E%3Crect x='1107' y='498' width='126' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='507' width='144' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='516' width='144' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='525' width='144' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='534' width='144' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='543' width='144' height='9' fill='%23f7f6ee'/%3E%3Crect x='1098' y='507' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1107' y='498' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1116' y='489' width='27' height='9' fill='%23ffffff'/%3E%3Crect x='1143' y='480' width='36' height='9' fill='%23ffffff'/%3E%3Crect x='1179' y='489' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1188' y='480' width='18' height='9' fill='%23ffffff'/%3E%3Crect x='1206' y='489' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='1215' y='498' width='18' height='9' fill='%23ffffff'/%3E%3Crect x='1233' y='507' width='9' height='9' fill='%23ffffff'/%3E%3Crect x='154' y='308' width='32' height='8' fill='%2386c7e6'/%3E%3Crect x='194' y='308' width='16' height='8' fill='%2386c7e6'/%3E%3Crect x='130' y='316' width='88' height='8' fill='%2386c7e6'/%3E%3Crect x='122' y='324' width='112' height='8' fill='%2386c7e6'/%3E%3Crect x='114' y='332' width='128' height='8' fill='%2386c7e6'/%3E%3Crect x='114' y='340' width='128' height='8' fill='%2386c7e6'/%3E%3Crect x='114' y='348' width='128' height='8' fill='%2386c7e6'/%3E%3Crect x='114' y='356' width='128' height='8' fill='%2386c7e6'/%3E%3Crect x='114' y='364' width='128' height='8' fill='%2386c7e6'/%3E%3Crect x='146' y='300' width='32' height='8' fill='%23f7f6ee'/%3E%3Crect x='186' y='300' width='16' height='8' fill='%23f7f6ee'/%3E%3Crect x='122' y='308' width='88' height='8' fill='%23f7f6ee'/%3E%3Crect x='114' y='316' width='112' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='324' width='128' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='332' width='128' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='340' width='128' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='348' width='128' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='356' width='128' height='8' fill='%23f7f6ee'/%3E%3Crect x='106' y='324' width='8' height='8' fill='%23ffffff'/%3E%3Crect x='114' y='316' width='8' height='8' fill='%23ffffff'/%3E%3Crect x='122' y='308' width='24' height='8' fill='%23ffffff'/%3E%3Crect x='146' y='300' width='32' height='8' fill='%23ffffff'/%3E%3Crect x='178' y='308' width='8' height='8' fill='%23ffffff'/%3E%3Crect x='186' y='300' width='16' height='8' fill='%23ffffff'/%3E%3Crect x='202' y='308' width='8' height='8' fill='%23ffffff'/%3E%3Crect x='210' y='316' width='16' height='8' fill='%23ffffff'/%3E%3Crect x='226' y='324' width='8' height='8' fill='%23ffffff'/%3E%3Crect x='768' y='68' width='16' height='8' fill='%2386c7e6'/%3E%3Crect x='736' y='76' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='736' y='84' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='736' y='92' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='736' y='100' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='760' y='60' width='16' height='8' fill='%23f7f6ee'/%3E%3Crect x='728' y='68' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='728' y='76' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='728' y='84' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='728' y='92' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='728' y='68' width='32' height='8' fill='%23ffffff'/%3E%3Crect x='760' y='60' width='16' height='8' fill='%23ffffff'/%3E%3Crect x='776' y='68' width='24' height='8' fill='%23ffffff'/%3E%3Crect x='72' y='127' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='44' y='134' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='44' y='141' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='44' y='148' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='44' y='155' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='65' y='120' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='37' y='127' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='37' y='134' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='37' y='141' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='37' y='148' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='37' y='127' width='28' height='7' fill='%23ffffff'/%3E%3Crect x='65' y='120' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='79' y='127' width='21' height='7' fill='%23ffffff'/%3E%3Crect x='1228' y='168' width='16' height='8' fill='%2386c7e6'/%3E%3Crect x='1196' y='176' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='1196' y='184' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='1196' y='192' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='1196' y='200' width='72' height='8' fill='%2386c7e6'/%3E%3Crect x='1220' y='160' width='16' height='8' fill='%23f7f6ee'/%3E%3Crect x='1188' y='168' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='1188' y='176' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='1188' y='184' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='1188' y='192' width='72' height='8' fill='%23f7f6ee'/%3E%3Crect x='1188' y='168' width='32' height='8' fill='%23ffffff'/%3E%3Crect x='1220' y='160' width='16' height='8' fill='%23ffffff'/%3E%3Crect x='1236' y='168' width='24' height='8' fill='%23ffffff'/%3E%3Crect x='436' y='506' width='12' height='6' fill='%2386c7e6'/%3E%3Crect x='412' y='512' width='54' height='6' fill='%2386c7e6'/%3E%3Crect x='412' y='518' width='54' height='6' fill='%2386c7e6'/%3E%3Crect x='412' y='524' width='54' height='6' fill='%2386c7e6'/%3E%3Crect x='412' y='530' width='54' height='6' fill='%2386c7e6'/%3E%3Crect x='430' y='500' width='12' height='6' fill='%23f7f6ee'/%3E%3Crect x='406' y='506' width='54' height='6' fill='%23f7f6ee'/%3E%3Crect x='406' y='512' width='54' height='6' fill='%23f7f6ee'/%3E%3Crect x='406' y='518' width='54' height='6' fill='%23f7f6ee'/%3E%3Crect x='406' y='524' width='54' height='6' fill='%23f7f6ee'/%3E%3Crect x='406' y='506' width='24' height='6' fill='%23ffffff'/%3E%3Crect x='430' y='500' width='12' height='6' fill='%23ffffff'/%3E%3Crect x='442' y='506' width='18' height='6' fill='%23ffffff'/%3E%3Crect x='1262' y='707' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='1234' y='714' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='1234' y='721' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='1234' y='728' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='1234' y='735' width='63' height='7' fill='%2386c7e6'/%3E%3Crect x='1255' y='700' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='1227' y='707' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='1227' y='714' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='1227' y='721' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='1227' y='728' width='63' height='7' fill='%23f7f6ee'/%3E%3Crect x='1227' y='707' width='28' height='7' fill='%23ffffff'/%3E%3Crect x='1255' y='700' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='1269' y='707' width='21' height='7' fill='%23ffffff'/%3E%3Crect x='321' y='97' width='7' height='7' fill='%2386c7e6'/%3E%3Crect x='335' y='97' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='314' y='104' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='314' y='111' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='314' y='118' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='314' y='90' width='7' height='7' fill='%23f7f6ee'/%3E%3Crect x='328' y='90' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='307' y='97' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='307' y='104' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='307' y='111' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='307' y='97' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='314' y='90' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='321' y='97' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='328' y='90' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='342' y='97' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='971' y='247' width='7' height='7' fill='%2386c7e6'/%3E%3Crect x='985' y='247' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='964' y='254' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='964' y='261' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='964' y='268' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='964' y='240' width='7' height='7' fill='%23f7f6ee'/%3E%3Crect x='978' y='240' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='957' y='247' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='957' y='254' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='957' y='261' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='957' y='247' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='964' y='240' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='971' y='247' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='978' y='240' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='992' y='247' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='161' y='477' width='7' height='7' fill='%2386c7e6'/%3E%3Crect x='175' y='477' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='154' y='484' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='154' y='491' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='154' y='498' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='154' y='470' width='7' height='7' fill='%23f7f6ee'/%3E%3Crect x='168' y='470' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='147' y='477' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='147' y='484' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='147' y='491' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='147' y='477' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='154' y='470' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='161' y='477' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='168' y='470' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='182' y='477' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='681' y='647' width='7' height='7' fill='%2386c7e6'/%3E%3Crect x='695' y='647' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='674' y='654' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='674' y='661' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='674' y='668' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='674' y='640' width='7' height='7' fill='%23f7f6ee'/%3E%3Crect x='688' y='640' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='667' y='647' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='667' y='654' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='667' y='661' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='667' y='647' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='674' y='640' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='681' y='647' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='688' y='640' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='702' y='647' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='1018' y='706' width='6' height='6' fill='%2386c7e6'/%3E%3Crect x='1030' y='706' width='12' height='6' fill='%2386c7e6'/%3E%3Crect x='1012' y='712' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='1012' y='718' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='1012' y='724' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='1012' y='700' width='6' height='6' fill='%23f7f6ee'/%3E%3Crect x='1024' y='700' width='12' height='6' fill='%23f7f6ee'/%3E%3Crect x='1006' y='706' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='1006' y='712' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='1006' y='718' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='1006' y='706' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='1012' y='700' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='1018' y='706' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='1024' y='700' width='12' height='6' fill='%23ffffff'/%3E%3Crect x='1036' y='706' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='1321' y='387' width='7' height='7' fill='%2386c7e6'/%3E%3Crect x='1335' y='387' width='14' height='7' fill='%2386c7e6'/%3E%3Crect x='1314' y='394' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='1314' y='401' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='1314' y='408' width='42' height='7' fill='%2386c7e6'/%3E%3Crect x='1314' y='380' width='7' height='7' fill='%23f7f6ee'/%3E%3Crect x='1328' y='380' width='14' height='7' fill='%23f7f6ee'/%3E%3Crect x='1307' y='387' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='1307' y='394' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='1307' y='401' width='42' height='7' fill='%23f7f6ee'/%3E%3Crect x='1307' y='387' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='1314' y='380' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='1321' y='387' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='1328' y='380' width='14' height='7' fill='%23ffffff'/%3E%3Crect x='1342' y='387' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='498' y='166' width='6' height='6' fill='%2386c7e6'/%3E%3Crect x='510' y='166' width='12' height='6' fill='%2386c7e6'/%3E%3Crect x='492' y='172' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='492' y='178' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='492' y='184' width='36' height='6' fill='%2386c7e6'/%3E%3Crect x='492' y='160' width='6' height='6' fill='%23f7f6ee'/%3E%3Crect x='504' y='160' width='12' height='6' fill='%23f7f6ee'/%3E%3Crect x='486' y='166' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='486' y='172' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='486' y='178' width='36' height='6' fill='%23f7f6ee'/%3E%3Crect x='486' y='166' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='492' y='160' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='498' y='166' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='504' y='160' width='12' height='6' fill='%23ffffff'/%3E%3Crect x='516' y='166' width='6' height='6' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  animation: sky-sway 26s steps(18) infinite alternate;
 }
 
-body::before {
-  width: 45vmax;
-  height: 45vmax;
-  top: -12vmax;
-  left: -10vmax;
-  background: radial-gradient(circle, #60a5fa, transparent 70%);
-  animation: drift1 18s ease-in-out infinite alternate;
+@keyframes sky-sway {
+  from { transform: translate3d(0, 0, 0) scale(1.01); }
+  to   { transform: translate3d(-12px, 6px, 0) scale(1.01); }
 }
 
-body::after {
-  width: 40vmax;
-  height: 40vmax;
-  bottom: -14vmax;
-  right: -8vmax;
-  background: radial-gradient(circle, #e879f9, transparent 70%);
-  animation: drift2 22s ease-in-out infinite alternate;
-}
-
-@keyframes drift1 {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(8vmax, 6vmax); }
-}
-
-@keyframes drift2 {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(-8vmax, -6vmax); }
-}
-
-/* ---------- 유리(글래스) 패널 ---------- */
-.container {
+/* ---------- 프레임 래퍼(장식이 잘리지 않도록 분리) ---------- */
+.frame-wrap {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 440px;
-  padding: 32px 28px;
-  text-align: center;                   /* 기본 중앙 정렬 */
-  border-radius: 28px;
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  backdrop-filter: blur(22px) saturate(160%);
-  border: 1px solid var(--glass-brd);
-  box-shadow: 0 20px 50px rgba(31, 38, 135, 0.18);
+  max-width: 420px;
+}
+
+/* ---------- 모서리 장식: 픽셀 화살표(폰트 글리프 대신 도형으로 그려 항상 표시되도록 처리) ---------- */
+.corner-chevron {
+  position: absolute;
+  z-index: 3;
+  width: 13px;
+  height: 13px;
+  background: #2fc3f7;
+  box-shadow: 0 0 0 1px var(--stone-0);
+  filter: drop-shadow(0 0 5px var(--cyan-glow));
+  animation: chevron-flicker 3.2s steps(2) infinite;
+}
+
+.chevron-tl { top: 6px;    left: 6px;  clip-path: polygon(0 0, 100% 0, 0 100%); }
+.chevron-tr {
+  top: 6px;    right: 6px;
+  background: #9d5ce0;
+  filter: drop-shadow(0 0 5px var(--purple-glow));
+  animation-delay: .8s;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+.chevron-bl { bottom: 6px; left: 6px;  animation-delay: 1.6s; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+.chevron-br {
+  bottom: 6px; right: 6px;
+  background: #9d5ce0;
+  filter: drop-shadow(0 0 5px var(--purple-glow));
+  animation-delay: 2.4s;
+  clip-path: polygon(100% 100%, 0 100%, 100% 0);
+}
+
+@keyframes chevron-flicker {
+  0%, 40%, 100% { opacity: 0.55; }
+  20%           { opacity: 1; }
+}
+
+/* ---------- 돌(스톤) 패널 ---------- */
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 42px 26px 30px;
+  text-align: center;               /* 기본 중앙 정렬 */
+  color: var(--ink);
+  background: var(--stone-1);
+  clip-path: polygon(
+    16px 0, calc(100% - 16px) 0, 100% 16px,
+    100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%,
+    0 calc(100% - 16px), 0 16px
+  );
+  box-shadow:
+    inset 0 0 0 4px var(--stone-0),
+    inset 0 0 0 8px var(--ring-mid),
+    inset 0 0 0 11px var(--stone-0),
+    inset 0 0 0 14px #11131c;
+  filter:
+    drop-shadow(0 14px 0 rgba(0, 0, 0, 0.35))
+    drop-shadow(0 0 26px rgba(110, 210, 255, 0.22));
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.07) 50%, transparent 58%);
+  background-size: 260% 260%;
+  animation: sweep 7s steps(30) infinite;
+  pointer-events: none;
+}
+
+@keyframes sweep {
+  0%   { background-position: -60% -60%; }
+  100% { background-position: 60% 60%; }
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 800;
+  position: relative;
+  font-size: 20px;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
+  text-shadow: 0 0 10px var(--cyan-glow);
   margin-bottom: 22px;
 }
 
 /* ---------- 검색 영역 ---------- */
 .search-box {
+  position: relative;
   display: flex;
   gap: 10px;
 }
 
 #cityInput {
   flex: 1;
-  padding: 14px 20px;
+  min-width: 0;
+  padding: 12px 16px;
   font-size: calc(var(--btn-font) * 0.9);   /* 버튼 크기의 90% */
   font-family: inherit;
   color: var(--ink);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;                  /* 부드러운 라운딩 */
+  border: none;
   outline: none;
-  background: rgba(255, 255, 255, 0.75);
-  transition: box-shadow 0.2s, background 0.2s;
+  background: #11131c;
+  clip-path: polygon(
+    6px 0, calc(100% - 6px) 0, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%,
+    0 calc(100% - 6px), 0 6px
+  );
+  box-shadow:
+    inset 0 0 0 2px var(--stone-0),
+    inset 0 0 0 3px var(--cyan-dim);
+  transition: box-shadow 0.2s;
 }
 
-#cityInput::placeholder { color: #94a3b8; }
+#cityInput::placeholder { color: var(--ink-dim); }
 
 #cityInput:focus {
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+  box-shadow:
+    inset 0 0 0 2px var(--stone-0),
+    inset 0 0 0 3px var(--cyan),
+    0 0 10px 2px var(--cyan-glow);
 }
 
 .search-btn {
-  padding: 14px 22px;
+  padding: 12px 18px;
   font-size: var(--btn-font);
   font-family: inherit;
   font-weight: 700;
-  color: #fff;                          /* 흰색 글자 */
+  color: #04121a;                       /* 어두운 청색 글자로 대비 확보 */
   border: none;
-  border-radius: 16px;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%); /* 푸른색 그라데이션 */
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
-  transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
+  background: linear-gradient(180deg, #8feaff 0%, #2c8fd9 100%); /* 푸른색 그라데이션 */
+  clip-path: polygon(
+    6px 0, calc(100% - 6px) 0, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%,
+    0 calc(100% - 6px), 0 6px
+  );
+  box-shadow:
+    inset 0 0 0 2px var(--stone-0),
+    0 0 0 2px var(--stone-0),
+    0 4px 0 0 var(--stone-0);
+  transition: transform 0.1s, filter 0.2s;
 }
 
-.search-btn:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.45);
-}
+.search-btn:hover { filter: brightness(1.1); }
 
 .search-btn:active {
-  transform: translateY(1px);
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 0 0 2px var(--stone-0),
+    0 0 0 2px var(--stone-0),
+    0 1px 0 0 var(--stone-0);
 }
 
 /* ---------- 날씨 카드 ---------- */
@@ -152,125 +235,154 @@ h1 {
 }
 
 .city {
-  font-size: 1.35rem;
+  font-size: 18px;
   font-weight: 700;
   color: var(--ink);
 }
 
 .description {
-  margin-top: 2px;
-  font-size: 1rem;
-  color: var(--ink-soft);
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--cyan-dim);
 }
 
 .card-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .weather-icon {
-  width: 130px;
-  height: 130px;
-  margin-bottom: -10px;
-  filter: drop-shadow(0 8px 16px rgba(37, 99, 235, 0.25));
+  width: 110px;
+  height: 110px;
+  margin-bottom: -6px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 10px var(--cyan-glow));
+  animation: icon-float 3.2s steps(8) infinite;
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
 }
 
 .temp {
-  font-size: 4rem;
+  font-size: 46px;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.02em;
-  color: #2563eb;                       /* 폴백: 그라데이션 글자 미지원 시 단색 표시 */
-}
-
-/* 그라데이션 글자 (지원 브라우저에서만 적용) */
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .temp {
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+  letter-spacing: -0.01em;
+  color: var(--cyan);
+  text-shadow:
+    0 0 8px var(--cyan-glow),
+    0 0 20px var(--cyan-glow);
 }
 
 .temp-range {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
 .pill {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
+  padding: 5px 12px;
+  font-size: 12px;
   font-weight: 600;
+  clip-path: polygon(
+    5px 0, calc(100% - 5px) 0, 100% 5px,
+    100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%,
+    0 calc(100% - 5px), 0 5px
+  );
 }
 
-.pill.max { background: rgba(244, 63, 94, 0.12); color: #e11d48; }
-.pill.min { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+.pill.max {
+  background: rgba(63, 166, 201, 0.18);
+  box-shadow: inset 0 0 0 2px var(--cyan-dim);
+  color: var(--cyan);
+}
 
-/* ---------- 상세 정보 (벤토 그리드) ---------- */
+.pill.min {
+  background: rgba(138, 99, 201, 0.18);
+  box-shadow: inset 0 0 0 2px var(--purple-dim);
+  color: var(--purple);
+}
+
+/* ---------- 상세 정보(모서리가 살짝 둥근 네모 박스) ---------- */
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .tile {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 16px 8px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  transition: transform 0.15s, box-shadow 0.2s;
+  padding: 14px 6px;
+  border-radius: 10px;
+  background: var(--stone-1);
+  box-shadow:
+    inset 0 0 0 2px var(--stone-0),
+    inset 0 0 0 3px var(--ring-mid);
+  transition: transform 0.15s;
+  animation: tile-glow 4s steps(4) infinite;
 }
 
-.tile:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(31, 38, 135, 0.15);
+.tile:nth-child(2) { animation-delay: .3s; }
+.tile:nth-child(3) { animation-delay: .6s; }
+
+.tile:hover { transform: translateY(-3px); }
+
+@keyframes tile-glow {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--stone-0), inset 0 0 0 3px var(--ring-mid); }
+  50%      { box-shadow: inset 0 0 0 2px var(--stone-0), inset 0 0 0 3px var(--cyan-dim); }
 }
 
-.tile-icon { font-size: 1.4rem; line-height: 1; }
+.tile-icon {
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px var(--cyan-glow));
+}
 
 .tile-label {
-  font-size: 0.78rem;
+  font-size: 11px;
   font-weight: 600;
-  color: var(--ink-soft);
+  color: var(--ink-dim);
 }
 
 .tile-value {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 700;
   color: var(--ink);
 }
 
 .tile-value small {
-  font-size: 0.72rem;
+  font-size: 10px;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--ink-dim);
 }
 
 .arrow {
   display: inline-block;
-  color: #2563eb;
+  color: var(--cyan);
   font-weight: 700;
   line-height: 1;
+  text-shadow: 0 0 6px var(--cyan-glow);
 }
 
 /* ---------- 상태 메시지 ---------- */
 .message {
   margin-top: 18px;
   min-height: 1.2em;
-  font-size: 0.92rem;
-  color: #475569;
+  font-size: 13px;
+  color: var(--ink-dim);
 }
