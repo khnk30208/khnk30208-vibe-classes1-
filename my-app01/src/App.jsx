@@ -4,13 +4,15 @@ function App() {
 
   // 카운트 증가 이벤트
   const upCount = () => {
+    // eslint-disable-next-line react-hooks/immutability -- 일반 변수 재할당이 렌더링에 반영되지 않음을 보여주는 의도된 예제
     count = count + 1;
     console.log(count);
-  } 
-  
+  }
+
   return (
     <>
       <p>{count}</p>
+      {/* eslint-disable-next-line react-hooks/immutability -- 위 예제와 동일한 이유로 억제 */}
       <button type="button" onClick={upCount}>증가</button>
     </>
   )
