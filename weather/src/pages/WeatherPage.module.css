@@ -1,0 +1,15 @@
+.page {
+  min-height: 100vh;
+}
+
+.error {
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 43, 214, 0.5);
+  background: rgba(255, 43, 214, 0.08);
+  color: var(--color-neon-pink);
+  text-align: center;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-bg: #05070f;
+  --color-panel: #0b1120;
+  --color-neon-cyan: #00f0ff;
+  --color-neon-pink: #ff2bd6;
+  --color-neon-purple: #a855f7;
+  --color-text: #e6f7ff;
+  --color-text-dim: #7d8ba8;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.07) 1px, transparent 1px);
+  background-size: 42px 42px;
+  color: var(--color-text);
+  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+}
