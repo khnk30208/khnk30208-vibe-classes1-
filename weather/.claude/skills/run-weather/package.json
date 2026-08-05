@@ -1,0 +1,10 @@
+{
+  "name": "run-weather-driver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "weather 앱을 헤드리스 Chromium으로 구동하기 위한 에이전트 전용 드라이버",
+  "type": "module",
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

@@ -1,0 +1,12 @@
+.counter {
+  float: right;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}

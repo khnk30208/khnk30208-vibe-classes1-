@@ -1,0 +1,47 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.search {
+  display: flex;
+  gap: 6px;
+}
+
+/* .input 은 index.css 의 전역 클래스라 :global 로 감싸야 한다. */
+.search :global(.input) {
+  width: 240px;
+}
+
+.colNumber {
+  width: 70px;
+}
+
+.colAuthor {
+  width: 120px;
+}
+
+.colDate {
+  width: 120px;
+}
+
+.colViews {
+  width: 80px;
+}
+
+.titleCell {
+  text-align: left;
+}
+
+.titleCell a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.titleCell a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}

@@ -1,26 +1,16 @@
 import { useState } from 'react'
 import Header from '../components/Header'
 import SearchSection from '../components/SearchSection'
-import ApiKeyPanel from '../components/ApiKeyPanel'
 import WeatherDashboard from '../components/WeatherDashboard'
 import continents from '../assets/continents.json'
 import { searchCityWeather } from '../service/weatherService'
-import {
-  getStoredApiKey,
-  setStoredApiKey,
-  clearStoredApiKey,
-  getEnvApiKey,
-  getEffectiveApiKey,
-} from '../service/apiKeyService'
+import { getEffectiveApiKey } from '../service/apiKeyService'
 import styles from './WeatherPage.module.css'
 
 export default function WeatherPage() {
   const [continentCode, setContinentCode] = useState('')
   const [cityQuery, setCityQuery] = useState('')
   const [manualCity, setManualCity] = useState('')
-
-  const [apiKeyInput, setApiKeyInput] = useState(getStoredApiKey())
-  const [hasStoredKey, setHasStoredKey] = useState(Boolean(getStoredApiKey()))
 
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -29,23 +19,6 @@ export default function WeatherPage() {
   const handleChangeContinent = (code) => {
     setContinentCode(code)
     setCityQuery('')
-  }
-
-  const handleSaveApiKey = () => {
-    const trimmed = apiKeyInput.trim()
-    if (!trimmed) {
-      clearStoredApiKey()
-      setHasStoredKey(false)
-      return
-    }
-    setStoredApiKey(trimmed)
-    setHasStoredKey(true)
-  }
-
-  const handleClearApiKey = () => {
-    clearStoredApiKey()
-    setApiKeyInput('')
-    setHasStoredKey(false)
   }
 
   const handleSearch = async () => {
@@ -58,7 +31,7 @@ export default function WeatherPage() {
 
     const apiKey = getEffectiveApiKey()
     if (!apiKey) {
-      setError('API Key가 설정되지 않았습니다. API Key를 입력 후 저장해주세요.')
+      setError('API Key가 설정되지 않았습니다.')
       return
     }
 
@@ -88,15 +61,6 @@ export default function WeatherPage() {
       <Header />
 
       <main className="max-w-2xl mx-auto flex flex-col items-center gap-5 px-4 pb-16">
-        <ApiKeyPanel
-          apiKeyInput={apiKeyInput}
-          onChangeApiKeyInput={setApiKeyInput}
-          onSave={handleSaveApiKey}
-          onClear={handleClearApiKey}
-          hasStoredKey={hasStoredKey}
-          isUsingEnvDefault={Boolean(getEnvApiKey())}
-        />
-
         <SearchSection
           continents={continents}
           continentCode={continentCode}
