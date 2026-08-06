@@ -2,9 +2,15 @@
   "use strict";
 
   // ==================== 설정 ====================
-  // 아래 따옴표 사이에 OpenWeatherMap API 키를 입력하세요.
+  // API 키는 소스에 넣지 않는다. 두 가지 방법 중 하나로 넣는다.
+  //  1) 3파일 버전: 같은 폴더의 config.js  (config.example.js 복사, git 제외)
+  //  2) 단일 파일 버전: 브라우저 콘솔에서
+  //     localStorage.setItem("weather:apiKey", "발급받은키")
   // 키 발급: https://home.openweathermap.org/api_keys (무료 가입 후 발급)
-  const API_KEY = "97d18319572b3537649d00267f011590";
+  const API_KEY =
+    (window.WEATHER_CONFIG && window.WEATHER_CONFIG.API_KEY) ||
+    localStorage.getItem("weather:apiKey") ||
+    "";
 
   const API_URL = "https://api.openweathermap.org/data/2.5/weather";
 
@@ -93,7 +99,7 @@
   // ==================== API 호출 ====================
   async function fetchWeather(city) {
     if (!API_KEY) {
-      showMessage("API 키가 설정되지 않았습니다. weather.js 파일 상단의 API_KEY 값을 입력하세요.");
+      showMessage("API 키가 없습니다. config.js 에 키를 넣거나, 콘솔에서 localStorage.setItem('weather:apiKey', '키') 를 실행하세요.");
       return;
     }
 

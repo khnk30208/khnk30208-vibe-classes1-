@@ -1,0 +1,118 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.form {
+  width: 100%;
+  max-width: 380px;
+  padding: 44px 40px;
+  background: rgb(255 255 255 / 52%);
+  border: 1px solid var(--hairline);
+  box-shadow:
+    0 1px 2px rgb(33 38 25 / 4%),
+    0 32px 60px -40px rgb(33 38 25 / 45%);
+}
+
+.title {
+  margin: 0 0 32px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+}
+
+/* 상자 대신 밑줄 하나로 받는다 */
+.input {
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ink);
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+
+.error {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #8a5a2b;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.primary,
+.secondary {
+  flex: 1;
+  padding: 13px 0;
+  border: 1px solid var(--ink);
+  font-family: var(--font-gothic);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--canvas-top);
+}
+
+.primary:hover {
+  background: #333c28;
+}
+
+.secondary {
+  border-color: var(--hairline);
+  background: none;
+  color: var(--ink-soft);
+}
+
+.secondary:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+.hint {
+  margin: 24px 0 0;
+  font-size: 11px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  text-align: center;
+  word-break: keep-all;
+}

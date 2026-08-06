@@ -1,0 +1,76 @@
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 82%);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.trigger:hover {
+  color: #fff;
+}
+
+/* 사용자 이름 앞 사람 아이콘 */
+.icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+.caret {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.15s;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% - 6px);
+  right: 0;
+  min-width: 156px;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: var(--canvas-top);
+  border: 1px solid var(--hairline);
+  box-shadow: 0 24px 44px -28px rgb(33 38 25 / 70%);
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 11px 18px;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.dropdownItem:hover {
+  background: rgb(33 38 25 / 5%);
+  color: var(--ink);
+}

@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  /* 본문·메뉴용 고딕. 굵기를 가볍게 써서 브랜드 톤을 만든다 */
+  --font-gothic: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo',
+    'Noto Sans KR', sans-serif;
+
+  /* 숫자(시간·기온) 전용 세리프. 절제해서 여기에만 쓴다 */
+  --font-serif: 'Palatino Linotype', 'Book Antiqua', Palatino,
+    'Iowan Old Style', Georgia, serif;
+
+  /* 채도를 낮춘 연두 계열 바탕 */
+  --canvas-top: #f4f6f0;
+  --canvas-mid: #e7eddf;
+  --canvas-bottom: #d8e1cb;
+
+  /* 초록 기미가 있는 먹색 계열 */
+  --ink: #212619;
+  --ink-soft: #626b57;
+  --ink-faint: #8d9680;
+  --hairline: rgb(33 38 25 / 14%);
+  --focus: #4d5a3c;
+
+  font-family: var(--font-gothic);
+  color: var(--ink);
+  background: var(--canvas-top);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}

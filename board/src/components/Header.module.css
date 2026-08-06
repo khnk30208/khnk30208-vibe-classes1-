@@ -1,0 +1,85 @@
+.header {
+  /* 회색 그라데이션은 유지하되 초록 기미가 있는 회색으로 골라
+     연두색 바탕과 같은 계열에 놓는다. 색을 바꾸려면 이 변수만 고치면 된다
+     연두색 그라데이션: linear-gradient(180deg, #a3e635 0%, #65a30d 100%); */
+  --header-gradient: linear-gradient(180deg, #5e655a 0%, #2f342b 100%);
+  --header-height: 56px;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: var(--header-gradient);
+  box-shadow: 0 1px 0 rgb(33 38 25 / 12%), 0 8px 24px -18px rgb(33 38 25 / 80%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* 메뉴는 링크가 아니라 버튼이다. 링크를 쓰면 새로고침이 일어난다 */
+.menuButton {
+  height: var(--header-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 82%);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s;
+}
+
+.menuButton:hover {
+  color: #fff;
+}
+
+.menuButton.active {
+  color: #fff;
+  border-bottom-color: rgb(255 255 255 / 70%);
+}
+
+/* Home 은 로고 자리다. 자간을 벌려 메뉴와 성격을 구분한다 */
+.logo {
+  font-weight: 400;
+  letter-spacing: 0.22em;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.loginButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 82%);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: color 0.2s;
+}
+
+.loginButton:hover {
+  color: #fff;
+}
