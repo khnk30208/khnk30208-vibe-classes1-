@@ -88,9 +88,12 @@ out center 40;`
     .filter(Boolean)
 }
 
+const SDK_TIMEOUT_MS = 10000
+
 let sdkPromise = null
 
-// 카카오 JS SDK 를 한 번만 주입한다
+// 카카오 JS SDK 를 한 번만 주입한다.
+// 실패하면 promise 를 비워 다음 시도에서 다시 붙일 수 있게 한다
 function loadKakaoSdk() {
   if (sdkPromise) return sdkPromise
 
@@ -100,15 +103,46 @@ function loadKakaoSdk() {
       return
     }
 
+    let settled = false
+
+    function fail(message) {
+      if (settled) return
+      settled = true
+      sdkPromise = null
+      reject(new Error(message))
+    }
+
+    // 응답이 영영 오지 않으면 버튼이 "찾는 중..." 에서 멈춘다. 시간 제한을 둔다
+    const timer = setTimeout(() => {
+      fail('카카오맵 SDK 응답이 없습니다. 네트워크 상태를 확인해 주세요.')
+    }, SDK_TIMEOUT_MS)
+
     const script = document.createElement('script')
     script.src = `${KAKAO_SDK_URL}?appkey=${getKakaoKey()}&libraries=services&autoload=false`
     script.async = true
+
     script.onload = () => {
-      window.kakao.maps.load(() => resolve(window.kakao))
+      // 키가 잘못되면 스크립트는 200 으로 오지만 kakao 가 만들어지지 않는다
+      if (!window.kakao?.maps) {
+        clearTimeout(timer)
+        fail('카카오맵 키가 올바르지 않습니다. JavaScript 키인지 확인해 주세요.')
+        return
+      }
+
+      window.kakao.maps.load(() => {
+        if (settled) return
+        settled = true
+        clearTimeout(timer)
+        resolve(window.kakao)
+      })
     }
+
     script.onerror = () => {
-      sdkPromise = null
-      reject(new Error('카카오맵 SDK 를 불러오지 못했습니다. 키와 도메인 등록을 확인하세요.'))
+      clearTimeout(timer)
+      fail(
+        '카카오맵 SDK 를 불러오지 못했습니다. 내 애플리케이션 > 플랫폼 > Web 에 ' +
+          `${window.location.origin} 이 등록되어 있는지 확인해 주세요.`,
+      )
     }
 
     document.head.appendChild(script)
@@ -132,7 +166,11 @@ export async function searchGymsByKakao({ lat, lng, radius = 2000 }) {
         }
 
         if (status !== kakao.maps.services.Status.OK) {
-          reject(new Error('카카오 장소 검색에 실패했습니다.'))
+          reject(
+            new Error(
+              '카카오 장소 검색에 실패했습니다. 키의 도메인 등록과 일일 쿼터를 확인해 주세요.',
+            ),
+          )
           return
         }
 

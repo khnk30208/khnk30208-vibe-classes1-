@@ -23,7 +23,8 @@ export default function GymCard() {
     }
   }
 
-  const usingKakao = result?.usingKakao ?? false
+  // 검색 전에는 "쓸 예정인" 데이터원, 검색 후에는 "실제로 쓴" 데이터원을 보여 준다
+  const sourceLabel = result?.sourceLabel ?? getSourceLabel()
 
   return (
     <div className={styles.wrap}>
@@ -36,7 +37,7 @@ export default function GymCard() {
         >
           {status === 'loading' ? '찾는 중...' : '내 주변 찾기'}
         </button>
-        <span className={styles.source}>데이터 · {getSourceLabel()}</span>
+        <span className={styles.source}>데이터 · {sourceLabel}</span>
       </div>
 
       {status === 'idle' && (
@@ -47,6 +48,13 @@ export default function GymCard() {
       )}
 
       {status === 'error' && <p className={styles.error}>{error}</p>}
+
+      {/* 카카오를 쓰려다 실패해 Overpass 로 되돌아온 경우 이유를 밝힌다 */}
+      {status === 'done' && result.fallbackReason && (
+        <p className={styles.error}>
+          카카오맵 검색에 실패해 OpenStreetMap 결과를 보여 줍니다. {result.fallbackReason}
+        </p>
+      )}
 
       {status === 'done' && result.gyms.length === 0 && (
         <p className={styles.empty}>반경 2km 안에서 찾은 곳이 없습니다.</p>
@@ -81,7 +89,7 @@ export default function GymCard() {
       )}
 
       {/* OSM 은 한국 헬스장 데이터가 성기다. 결과가 적은 이유를 밝혀 둔다 */}
-      {status === 'done' && !usingKakao && (
+      {status === 'done' && result.source === 'osm' && !result.fallbackReason && (
         <p className={styles.notice}>
           지금은 키가 필요 없는 OpenStreetMap 데이터를 쓰고 있어 등록된 곳이 적을 수
           있습니다. <code>.env</code> 에 <code>VITE_KAKAO_MAP_KEY</code> 를 넣으면
