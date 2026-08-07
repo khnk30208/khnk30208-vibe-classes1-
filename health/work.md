@@ -18,9 +18,10 @@
 | 2 | 게시판 기능 (목록/상세/글쓰기/수정/삭제, localStorage) — `doc/board.md` | 완료 |
 | 3 | 건강분석 — 수동 입력 폼 + 계산·판정 — `doc/health-analysis.md` | 완료 |
 | 4 | 건강분석 — 파일 첨부(OCR) 자동 채움 | 예정 |
-| 5 | 영양소 부족 판정 + 음식 추천 | 예정 |
-| 6 | 헬스장찾기 (위치 + 카카오맵) | 예정 |
-| 7 | 내기록 (localStorage + 추이 그래프) | 예정 |
+| 5 | 영양소 부족 판정 + 음식 추천 — `doc/section-nav.md` | 완료 |
+| 6 | 헬스장찾기 (위치 + OSM, 카카오 키 있으면 전환) — `doc/section-nav.md` | 완료 |
+| 7 | 내기록 (localStorage + 추이 그래프) — `doc/section-nav.md` | 완료 |
+| 7.5 | 운동 추천(H-7) + 우측 섹션 독 — `doc/section-nav.md` | 완료 |
 | 8 | **웹 디자인** — 토큰·Pretendard·다크모드·모션·그래프 — `doc/design-system.md` | 완료 |
 
 

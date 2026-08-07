@@ -10,6 +10,7 @@
   - `doc/board.md` : 게시판 기능
   - `doc/health-analysis.md` : 건강분석 입력·계산
   - `doc/design-system.md` : 디자인 토큰·타이포·모션·그래프
+  - `doc/section-nav.md` : 대시보드 섹션 확장 + 우측 아이콘 독
 
 
 # 1. 기술 스택

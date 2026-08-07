@@ -1,0 +1,246 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 9px 18px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--grad);
+  color: #fff;
+  font-family: var(--font-gothic);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--sh-2);
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ghost {
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink-2);
+  font-family: var(--font-gothic);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.danger {
+  border-color: color-mix(in srgb, var(--alert) 45%, transparent);
+  color: var(--alert);
+}
+
+/* ---------- 추이 차트 ---------- */
+.chartBox {
+  padding: 14px 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+}
+
+.chartHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.chartTitle {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ink-2);
+}
+
+.change {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.down {
+  color: var(--ok);
+}
+
+.up {
+  color: var(--warn);
+}
+
+.flat {
+  color: var(--ink-3);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: 96px;
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: var(--info);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* viewBox 를 늘려 그리므로 선 두께가 찌그러지지 않게 고정한다 */
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: draw 0.85s var(--ease) both;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.area {
+  fill: var(--info-tint);
+  stroke: none;
+  animation: fadeIn 0.6s var(--ease) both 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.dot {
+  fill: var(--panel);
+  stroke: var(--info);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.dotLast {
+  fill: var(--pulse);
+  stroke: var(--pulse);
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+/* ---------- 기록 목록 ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+}
+
+.date {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.values b {
+  font-weight: 800;
+}
+
+.remove {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.empty {
+  margin: 0;
+  padding: 22px 0;
+  color: var(--ink-3);
+  font-size: 13.5px;
+  text-align: center;
+}
+
+.notice {
+  margin: 0;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  line-height: 1.7;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+  }
+
+  .ghost:hover {
+    border-color: var(--pulse);
+    color: var(--ink);
+  }
+
+  .remove:hover {
+    border-color: var(--alert);
+    color: var(--alert);
+  }
+}

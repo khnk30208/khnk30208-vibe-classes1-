@@ -2,16 +2,21 @@ import { useState } from 'react'
 import styles from './HomePage.module.css'
 import HealthInputForm from '../components/HealthInputForm'
 import HealthSummary from '../components/HealthSummary'
+import GymCard from '../components/GymCard'
+import RecordCard from '../components/RecordCard'
+import SectionDock from '../components/SectionDock'
 import Reveal from '../components/Reveal'
 import { analyze, validateHealthInput } from '../service/healthService'
+import { recommendFoods, recommendNutrients } from '../service/nutritionService'
+import { recommendExercises, WEEKLY_AEROBIC_MINUTES } from '../service/exerciseService'
+import { SECTIONS } from '../constants/sections'
 import { prefersReducedMotion } from '../utils/motion'
 
-// 사용자 데이터가 없어도 되는 일반 생활 수칙이라 지금 채운다.
-// 나머지 카드는 분석 엔진(work.md 단계 5~6)이 생긴 뒤 채운다
+// 사용자 데이터가 없어도 되는 일반 생활 수칙이라 분석 전에도 채워 둔다
 const LIFESTYLE_TIPS = [
   '물은 하루 1.5~2L 를 여러 번 나눠 마시기',
   '하루 7~8시간 규칙적으로 자기',
-  '중강도 유산소 운동을 주 150분 이상 하기',
+  `중강도 유산소 운동을 주 ${WEEKLY_AEROBIC_MINUTES}분 이상 하기`,
   '앉아 있는 시간 1시간마다 3~5분 일어나 움직이기',
   '매 끼니에 채소나 과일 한 가지 이상 곁들이기',
 ]
@@ -23,10 +28,11 @@ function scrollToTop() {
 }
 
 // 대시보드 카드 한 장. 이 페이지 안에서만 쓰므로 별도 파일로 빼지 않는다
-function Card({ title, description, ready, wide, index, action, children }) {
+function Card({ id, title, description, ready, wide, index, action, children }) {
   return (
     <Reveal
       as="section"
+      id={id}
       index={index}
       className={`${styles.card} ${wide ? styles.cardWide : ''}`}
     >
@@ -68,7 +74,6 @@ export default function HomePage() {
     setLastInput(form)
     setAnalysis(analyze(form))
     setView('dashboard')
-    // 폼 아래쪽에서 제출했어도 결과는 처음부터 보이게 한다
     scrollToTop()
   }
 
@@ -105,85 +110,175 @@ export default function HomePage() {
     )
   }
 
-  return (
-    <div className={styles.page}>
-      <div className={styles.head}>
-        <span className={styles.eyebrow}>HEALTH DASHBOARD</span>
-        <h1 className={styles.pageTitle}>
-          오늘의 건강 상태를
-          <br />한 화면에서 확인하세요
-        </h1>
-        <p className={styles.lead}>
-          나이·신장·체중을 입력하면 BMI 구간, 기초대사량, 목표 체중까지 걸리는 기간을
-          계산해 드립니다. 혈액검사 수치를 넣으면 참고 범위와 비교해 보여 줍니다.
-        </p>
-      </div>
+  // 분석 결과가 있어야 채울 수 있는 것들
+  const nutrients = analysis ? recommendNutrients(analysis) : []
+  const foods = analysis ? recommendFoods(nutrients) : []
+  const exercises = analysis ? recommendExercises(analysis) : []
 
-      <div className={styles.grid}>
-        {analysis ? (
-          <Card
-            title="건강"
-            ready
-            wide
-            index={0}
-            action={
-              <button type="button" className={styles.cardButton} onClick={goInput}>
-                다시 입력
+  return (
+    <>
+      <div className={styles.page}>
+        <div className={styles.head}>
+          <span className={styles.eyebrow}>HEALTH DASHBOARD</span>
+          <h1 className={styles.pageTitle}>
+            오늘의 건강 상태를
+            <br />한 화면에서 확인하세요
+          </h1>
+          <p className={styles.lead}>
+            나이·신장·체중을 입력하면 BMI 구간, 기초대사량, 목표 체중까지 걸리는 기간을
+            계산해 드립니다. 결과에 맞춰 영양소·음식·운동까지 이어서 알려 드립니다.
+          </p>
+        </div>
+
+        <div className={styles.grid}>
+          {analysis ? (
+            <Card
+              id="section-health"
+              title="건강"
+              ready
+              wide
+              index={0}
+              action={
+                <button type="button" className={styles.cardButton} onClick={goInput}>
+                  다시 입력
+                </button>
+              }
+            >
+              <HealthSummary analysis={analysis} />
+            </Card>
+          ) : (
+            <Card
+              id="section-health"
+              title="건강"
+              description="나이·신장·체중을 입력하면 체중과 건강 상태 요약이 여기에 표시됩니다."
+              ready
+              index={0}
+            >
+              <button type="button" className={styles.primaryButton} onClick={goInput}>
+                건강정보 입력하기
               </button>
+            </Card>
+          )}
+
+          <Card
+            id="section-nutrients"
+            title="필요한 영양소"
+            ready={Boolean(analysis)}
+            wide={Boolean(analysis)}
+            index={1}
+            description={
+              analysis
+                ? undefined
+                : '분석 결과를 바탕으로 보충이 필요한 영양소를 알려드립니다.'
             }
           >
-            <HealthSummary analysis={analysis} />
+            {analysis && (
+              <div className={styles.nutrientList}>
+                {nutrients.map((nutrient) => (
+                  <div className={styles.nutrient} key={nutrient.key}>
+                    <span className={styles.nutrientName}>{nutrient.name}</span>
+                    <span className={styles.nutrientWhy}>{nutrient.why}</span>
+                    <div className={styles.reasons}>
+                      {nutrient.reasons.map((reason) => (
+                        <span className={styles.reason} key={reason}>
+                          {reason}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </Card>
-        ) : (
+
           <Card
-            title="건강"
-            description="나이·신장·체중을 입력하면 체중과 건강 상태 요약이 여기에 표시됩니다."
-            ready
-            index={0}
+            id="section-foods"
+            title="음식 추천"
+            ready={Boolean(analysis)}
+            wide={Boolean(analysis)}
+            index={2}
+            description={
+              analysis
+                ? '여러 영양소를 한 번에 채우는 음식을 앞에 뒀습니다.'
+                : '부족한 영양소가 풍부한 음식을 추천해 드립니다.'
+            }
           >
-            <button type="button" className={styles.primaryButton} onClick={goInput}>
-              건강정보 입력하기
-            </button>
+            {analysis && (
+              <div className={styles.foodList}>
+                {foods.map((food) => (
+                  <span className={styles.food} key={food.name}>
+                    {food.name}
+                    <span className={styles.foodTag}>{food.nutrients.join('·')}</span>
+                  </span>
+                ))}
+              </div>
+            )}
           </Card>
+
+          <Card
+            id="section-exercise"
+            title="운동 추천"
+            ready={Boolean(analysis)}
+            wide={Boolean(analysis)}
+            index={3}
+            description={
+              analysis
+                ? '30분 기준 소모 열량은 체중을 넣어 계산한 값입니다.'
+                : '분석 결과에 맞는 운동과 소모 열량을 알려드립니다.'
+            }
+          >
+            {analysis && (
+              <div className={styles.exerciseList}>
+                {exercises.map((exercise) => (
+                  <div className={styles.exercise} key={exercise.key}>
+                    <span className={styles.exerciseName}>{exercise.name}</span>
+                    <span className={styles.exerciseBurn}>
+                      {exercise.burn30 ?? '-'} kcal / 30분
+                    </span>
+                    <span className={styles.exerciseMeta}>
+                      <span className={styles.pill}>{exercise.type}</span>
+                      <span className={styles.pill}>{exercise.intensity}</span>
+                      {exercise.note}
+                      {exercise.minutesForGoal
+                        ? ` 목표 적자를 이 운동만으로 채우면 약 ${exercise.minutesForGoal}분입니다.`
+                        : ''}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          <Card id="section-gym" title="주변 헬스장" ready index={4} wide>
+            <GymCard />
+          </Card>
+
+          <Card id="section-records" title="내기록" ready index={5} wide>
+            <RecordCard analysis={analysis} />
+          </Card>
+
+          <Card title="생활 습관 팁" ready index={6}>
+            <ul className={styles.tipList}>
+              {LIFESTYLE_TIPS.map((tip) => (
+                <li key={tip} className={styles.tipItem}>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+
+        {/* 결과가 표시될 때는 화면 안에서도 면책 문구를 다시 보여준다 (CLAUDE.md 5장) */}
+        {analysis && (
+          <p className={styles.disclaimer}>
+            본 결과는 일반적인 참고 정보이며 의학적 진단이 아닙니다. 건강 이상이
+            의심되면 반드시 의료 전문가와 상담하세요.
+          </p>
         )}
-
-        <Card
-          title="필요한 영양소"
-          description="분석 결과를 바탕으로 보충이 필요한 영양소를 알려드립니다."
-          index={1}
-        />
-
-        <Card
-          title="음식 추천"
-          description="부족한 영양소가 풍부한 음식을 추천해 드립니다."
-          index={2}
-        />
-
-        <Card title="생활 습관 팁" ready index={3}>
-          <ul className={styles.tipList}>
-            {LIFESTYLE_TIPS.map((tip) => (
-              <li key={tip} className={styles.tipItem}>
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </Card>
-
-        <Card
-          title="주변 헬스장"
-          description="접속 위치를 기준으로 가까운 헬스장을 찾아 지도에 표시합니다."
-          index={4}
-        />
       </div>
 
-      {/* 결과가 표시될 때는 화면 안에서도 면책 문구를 다시 보여준다.
-          결과가 없을 때는 Footer 의 상시 문구로 충분하다 (CLAUDE.md 5장) */}
-      {analysis && (
-        <p className={styles.disclaimer}>
-          본 결과는 일반적인 참고 정보이며 의학적 진단이 아닙니다. 건강 이상이
-          의심되면 반드시 의료 전문가와 상담하세요.
-        </p>
-      )}
-    </div>
+      {/* 독은 대시보드에서만 띄운다 (doc/section-nav.md 2.5) */}
+      <SectionDock sections={SECTIONS} />
+    </>
   )
 }

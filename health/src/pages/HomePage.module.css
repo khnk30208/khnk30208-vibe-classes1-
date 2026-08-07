@@ -4,6 +4,14 @@
   padding: 40px 0 56px;
 }
 
+/* 우측 독이 콘텐츠를 덮는 구간에서만 오른쪽을 비워 준다.
+   1100px 을 넘으면 독이 콘텐츠 바깥에 놓여 비울 필요가 없다 */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .page {
+    padding-right: 64px;
+  }
+}
+
 /* ---------- 페이지 머리 ---------- */
 .head {
   margin-bottom: 26px;
@@ -47,8 +55,6 @@
 }
 
 /* ---------- 카드 격자 ---------- */
-/* align-items 를 건드리지 않는다. 같은 줄의 카드가 서로 높이를 맞춰야
-   격자가 반듯하게 보인다 */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
@@ -64,9 +70,10 @@
   border-radius: var(--r-lg);
   background: var(--panel);
   box-shadow: var(--sh-2);
+  /* sticky 헤더에 가리지 않게 스크롤 목적지를 내려 준다 */
+  scroll-margin-top: calc(var(--header-h) + 18px);
 }
 
-/* 분석 결과가 있으면 건강 카드는 표시할 값이 많아 전체 너비를 쓴다 */
 .cardWide {
   grid-column: 1 / -1;
 }
@@ -168,6 +175,133 @@
   height: 6px;
   border-radius: 2px;
   background: var(--ok);
+}
+
+/* ---------- 영양소 ---------- */
+.nutrientList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.nutrient {
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+}
+
+.nutrientName {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.nutrientWhy {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.reason {
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--warn-tint);
+  color: var(--warn);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ---------- 음식 ---------- */
+.foodList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.food {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--panel-2);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.foodTag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ok);
+}
+
+/* ---------- 운동 ---------- */
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.exercise {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+}
+
+.exerciseName {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.exerciseBurn {
+  grid-row: 1;
+  grid-column: 2;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--info);
+  white-space: nowrap;
+}
+
+.exerciseMeta {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.pill {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 1px 7px;
+  border-radius: 100px;
+  background: var(--panel-3);
+  color: var(--ink-2);
+  font-size: 10.5px;
+  font-weight: 700;
 }
 
 /* ---------- 입력 화면 ---------- */
