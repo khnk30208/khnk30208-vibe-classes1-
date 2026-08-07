@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ============================================================
+   0. 디자인 토큰 — 색은 여기서만 정의한다.
+      컴포넌트 CSS 에 리터럴 색을 쓰지 않는다 (doc/design-system.md 3장)
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  --content-max: 960px;
+  --gutter: 16px;
+  --header-h: 56px;
+
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+
+  --font-gothic:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕',
+    'Segoe UI', Roboto, system-ui, sans-serif;
+  --mono:
+    ui-monospace, 'SFMono-Regular', 'JetBrains Mono', 'Cascadia Mono', Consolas,
+    'Liberation Mono', Menlo, monospace;
+
+  --ease: cubic-bezier(0.22, 0.72, 0.28, 1);
+  --ease-pop: cubic-bezier(0.34, 1.5, 0.5, 1);
+
+  /* 표면: 아주 연한 하늘빛 */
+  --plane: #eef4fb;
+  --plane-2: #e5eef8;
+  --panel: #ffffff;
+  --panel-2: #f5f9fe;
+  --panel-3: #e9f1fb;
+
+  /* 잉크: 남색 계열 */
+  --ink: #06203d;
+  --ink-2: #2a4e73;
+  --ink-3: #42648b;
+
+  /* 선 */
+  --line: #d5e2f2;
+  --line-2: #b6cbe3;
+  --track: #e0eaf6;
+
+  /* 건강 의미 색. 색만으로 상태를 전달하지 않는다 (문구·아이콘 병기) */
+  --ok: #0e8f7a;
+  --ok-tint: rgb(14 143 122 / 12%);
+  --warn: #b0700c;
+  --warn-tint: rgb(176 112 12 / 14%);
+  --alert: #c0432b;
+  --alert-tint: rgb(192 67 43 / 12%);
+  --info: #2f6ce0;
+  --info-tint: rgb(47 108 224 / 12%);
+
+  /* BMI 순서형 램프 (저체중 → 비만 3단계) */
+  --bmi-1: #6b93bd;
+  --bmi-2: #0e8f7a;
+  --bmi-3: #7fa524;
+  --bmi-4: #d69a1b;
+  --bmi-5: #d4702a;
+  --bmi-6: #c0432b;
+
+  /* 움직임 신호 전용. 데이터 값에는 쓰지 않는다 */
+  --pulse: #e8541b;
+  --pulse-soft: rgb(232 84 27 / 14%);
+  --pulse-line: rgb(232 84 27 / 42%);
+
+  --grad: linear-gradient(100deg, #0a6ea8 0%, #1a54c8 52%, #10265c 100%);
+  --grad-deco: linear-gradient(100deg, #2bb8a3 0%, #2f7ae8 52%, #10265c 100%);
+
+  --sh-1: 0 1px 1px rgb(6 32 61 / 5%), 0 1px 3px rgb(6 32 61 / 6%);
+  --sh-2: 0 1px 2px rgb(6 32 61 / 6%), 0 10px 24px -12px rgb(6 32 61 / 22%);
+  --sh-3: 0 1px 2px rgb(6 32 61 / 7%), 0 20px 44px -16px rgb(6 32 61 / 30%);
+}
+
+/* 시스템이 다크일 때 (사용자가 라이트를 고정하지 않은 경우만) */
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+
+    --plane: #060b14;
+    --plane-2: #09121e;
+    --panel: #0e1725;
+    --panel-2: #141f33;
+    --panel-3: #1a2640;
+
+    --ink: #eef5fd;
+    --ink-2: #b3c8e0;
+    --ink-3: #8ea6c3;
+
+    --line: #22314c;
+    --line-2: #374b6c;
+    --track: #19243b;
+
+    --ok: #2fc0a6;
+    --ok-tint: rgb(47 192 166 / 18%);
+    --warn: #e0a53c;
+    --warn-tint: rgb(224 165 60 / 20%);
+    --alert: #f2705a;
+    --alert-tint: rgb(242 112 90 / 18%);
+    --info: #4b8bf0;
+    --info-tint: rgb(75 139 240 / 18%);
+
+    --bmi-1: #7fa8d4;
+    --bmi-2: #2fc0a6;
+    --bmi-3: #a8cc44;
+    --bmi-4: #e8b93f;
+    --bmi-5: #ef8c4b;
+    --bmi-6: #f2705a;
+
+    --pulse: #ff7a3d;
+    --pulse-soft: rgb(255 122 61 / 18%);
+    --pulse-line: rgb(255 122 61 / 50%);
+
+    --grad: linear-gradient(100deg, #0d7cbc 0%, #2a5fd6 52%, #1b3a80 100%);
+    --grad-deco: linear-gradient(100deg, #3fd6bd 0%, #2f7ae8 52%, #1b3a80 100%);
+
+    --sh-1: 0 1px 1px rgb(0 0 0 / 42%), 0 1px 3px rgb(0 0 0 / 36%);
+    --sh-2: 0 1px 2px rgb(0 0 0 / 46%), 0 10px 24px -12px rgb(0 0 0 / 76%);
+    --sh-3: 0 1px 2px rgb(0 0 0 / 50%), 0 20px 44px -16px rgb(0 0 0 / 86%);
+  }
+}
+
+/* 사용자가 직접 다크를 고른 경우 (시스템 설정보다 우선) */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --plane: #060b14;
+  --plane-2: #09121e;
+  --panel: #0e1725;
+  --panel-2: #141f33;
+  --panel-3: #1a2640;
+
+  --ink: #eef5fd;
+  --ink-2: #b3c8e0;
+  --ink-3: #8ea6c3;
+
+  --line: #22314c;
+  --line-2: #374b6c;
+  --track: #19243b;
+
+  --ok: #2fc0a6;
+  --ok-tint: rgb(47 192 166 / 18%);
+  --warn: #e0a53c;
+  --warn-tint: rgb(224 165 60 / 20%);
+  --alert: #f2705a;
+  --alert-tint: rgb(242 112 90 / 18%);
+  --info: #4b8bf0;
+  --info-tint: rgb(75 139 240 / 18%);
+
+  --bmi-1: #7fa8d4;
+  --bmi-2: #2fc0a6;
+  --bmi-3: #a8cc44;
+  --bmi-4: #e8b93f;
+  --bmi-5: #ef8c4b;
+  --bmi-6: #f2705a;
+
+  --pulse: #ff7a3d;
+  --pulse-soft: rgb(255 122 61 / 18%);
+  --pulse-line: rgb(255 122 61 / 50%);
+
+  --grad: linear-gradient(100deg, #0d7cbc 0%, #2a5fd6 52%, #1b3a80 100%);
+  --grad-deco: linear-gradient(100deg, #3fd6bd 0%, #2f7ae8 52%, #1b3a80 100%);
+
+  --sh-1: 0 1px 1px rgb(0 0 0 / 42%), 0 1px 3px rgb(0 0 0 / 36%);
+  --sh-2: 0 1px 2px rgb(0 0 0 / 46%), 0 10px 24px -12px rgb(0 0 0 / 76%);
+  --sh-3: 0 1px 2px rgb(0 0 0 / 50%), 0 20px 44px -16px rgb(0 0 0 / 86%);
+}
+
+/* ============================================================
+   1. 기본
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--plane);
+  color: var(--ink);
+  font-family: var(--font-gothic);
+  font-size: 16px;
+  line-height: 1.68;
+  /* 한글은 어절 단위로 끊는다. 긴 영문·URL 만 강제로 자른다 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+ul,
+ol {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* 숫자는 자릿수가 흔들리지 않게 고정폭으로 */
+.tnum,
+table,
+input[type='number'] {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pulse);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   2. 모션 — JS 가 켜졌을 때만 적용한다.
+      JS 가 실패해도 모든 값이 그대로 보여야 한다 (doc/design-system.md 5장)
+   ============================================================ */
+.js-motion .rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.4s var(--ease);
+  transition-delay: calc(var(--i, 0) * 52ms);
+}
+
+.js-motion .rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .js-motion .rv {
+    opacity: 1;
+    transform: none;
+  }
+}

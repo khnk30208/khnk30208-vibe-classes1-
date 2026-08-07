@@ -12,6 +12,21 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "board", "run", "dev"],
       "port": 3001
+    },
+    {
+      "name": "health",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "health",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "3002",
+        "--strictPort"
+      ],
+      "port": 3002
     }
   ]
 }

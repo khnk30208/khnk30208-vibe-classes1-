@@ -1,0 +1,212 @@
+.page {
+  width: min(calc(100% - var(--gutter) * 2), var(--content-max));
+  margin-inline: auto;
+  padding: 40px 0 56px;
+}
+
+/* ---------- 페이지 머리 ---------- */
+.head {
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--pulse);
+}
+
+.eyebrow::after {
+  content: '';
+  width: 30px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--pulse);
+  opacity: 0.35;
+}
+
+.pageTitle {
+  font-size: clamp(27px, 4.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.042em;
+  line-height: 1.18;
+  color: var(--ink);
+}
+
+.lead {
+  margin-top: 10px;
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--ink-2);
+}
+
+/* ---------- 카드 격자 ---------- */
+/* align-items 를 건드리지 않는다. 같은 줄의 카드가 서로 높이를 맞춰야
+   격자가 반듯하게 보인다 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 19px 20px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--sh-2);
+}
+
+/* 분석 결과가 있으면 건강 카드는 표시할 값이 많아 전체 너비를 쓴다 */
+.cardWide {
+  grid-column: 1 / -1;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.badge {
+  padding: 2px 9px;
+  border-radius: 100px;
+  background: var(--panel-3);
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.headSpacer {
+  flex: 1;
+}
+
+.cardDescription {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* ---------- 버튼 ---------- */
+.cardButton {
+  padding: 7px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  font-family: var(--font-gothic);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s var(--ease);
+}
+
+.primaryButton {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--grad);
+  color: #fff;
+  font-family: var(--font-gothic);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: var(--sh-2);
+  transition:
+    transform 0.24s var(--ease),
+    box-shadow 0.24s var(--ease),
+    filter 0.24s ease;
+}
+
+/* ---------- 생활 습관 팁 ---------- */
+.tipList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.tipItem {
+  position: relative;
+  padding-left: 17px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.tipItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--ok);
+}
+
+/* ---------- 입력 화면 ---------- */
+.inputHead {
+  margin-bottom: 20px;
+}
+
+.disclaimer {
+  margin-top: 26px;
+  padding: 13px 15px;
+  border-left: 3px solid var(--line-2);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: var(--panel-2);
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card {
+    transition:
+      box-shadow 0.28s var(--ease),
+      transform 0.28s var(--ease);
+  }
+
+  .card:hover {
+    box-shadow: var(--sh-3);
+    transform: translateY(-3px);
+  }
+
+  .cardButton:hover {
+    color: var(--ink);
+    border-color: var(--pulse);
+    transform: translateY(-2px);
+  }
+
+  .primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+    filter: saturate(1.12);
+  }
+}

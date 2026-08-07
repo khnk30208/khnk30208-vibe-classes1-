@@ -1,0 +1,176 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 16px 19px 19px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--sh-1);
+}
+
+.legend {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 6px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.optional {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+  gap: 13px 16px;
+  margin-top: 10px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.input,
+.select {
+  padding: 9px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+  color: var(--ink);
+  font-family: var(--font-gothic);
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--info);
+  background: var(--panel);
+}
+
+.radioRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* 라디오를 칩처럼 보이게 한다. 실제 input 은 숨기지 않고 시각만 감춘다 */
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  padding: 9px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.radio input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.radio:has(input:checked) {
+  border-color: var(--info);
+  background: var(--info-tint);
+  color: var(--ink);
+}
+
+.radio:has(input:focus-visible) {
+  outline: 3px solid var(--pulse);
+  outline-offset: 2px;
+}
+
+.error {
+  margin: 0;
+  padding: 11px 13px;
+  border-left: 3px solid var(--alert);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: var(--alert-tint);
+  color: var(--alert);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 9px;
+}
+
+.submit,
+.cancel {
+  padding: 11px 24px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-gothic);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.submit {
+  border: 0;
+  background: var(--grad);
+  color: #fff;
+  box-shadow: var(--sh-2);
+}
+
+.cancel {
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  color: var(--ink-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .radio:hover {
+    border-color: var(--info);
+    color: var(--ink);
+  }
+
+  .submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+  }
+
+  .cancel:hover {
+    border-color: var(--pulse);
+    color: var(--ink);
+  }
+}
