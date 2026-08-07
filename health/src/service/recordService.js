@@ -25,10 +25,33 @@ export async function getRecords() {
   )
 }
 
+// 날짜만 비교하려고 ISO 문자열의 앞 10자(YYYY-MM-DD)를 쓴다
+function toDateKey(isoString) {
+  return (isoString ?? '').slice(0, 10)
+}
+
+export function hasRecordForToday(records) {
+  const today = toDateKey(new Date().toISOString())
+
+  return records.some((record) => toDateKey(record.measuredAt) === today)
+}
+
+/**
+ * 기록은 하루에 한 줄만 남긴다.
+ * 같은 날 다시 저장하면 마지막 값으로 덮어쓴다. 그러지 않으면 추이 차트의
+ * x축(시간)에 같은 날 점이 여러 개 겹쳐 선이 수직으로 꺾인다.
+ */
 export async function saveRecord(analysis) {
   const record = toRecord(analysis)
 
   if (!record) throw new Error('저장할 분석 결과가 없습니다.')
+
+  const existing = await recordApi.fetchRecords()
+  const sameDay = existing.find(
+    (item) => toDateKey(item.measuredAt) === toDateKey(record.measuredAt),
+  )
+
+  if (sameDay) await recordApi.deleteRecord(sameDay.id)
 
   await recordApi.createRecord(record)
 

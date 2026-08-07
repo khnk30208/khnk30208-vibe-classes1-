@@ -31,6 +31,35 @@ export function getTotalPages(total, pageSize = PAGE_SIZE) {
   return Math.max(1, Math.ceil(total / pageSize))
 }
 
+/**
+ * 화면에 그릴 페이지 번호 목록.
+ * 전체를 다 그리면 글이 쌓일수록 버튼이 끝없이 늘어나므로 현재 페이지 주변만 남기고
+ * 사이는 '…' 로 접는다. 처음과 끝 페이지는 항상 보여 준다.
+ *
+ * 반환 예: [1, '…', 7, 8, 9, '…', 42]
+ */
+export function buildPageWindow(page, totalPages, radius = 2) {
+  if (totalPages <= 1) return [1]
+
+  const pages = new Set([1, totalPages])
+
+  for (let offset = -radius; offset <= radius; offset += 1) {
+    const candidate = page + offset
+    if (candidate >= 1 && candidate <= totalPages) pages.add(candidate)
+  }
+
+  const sorted = [...pages].sort((a, b) => a - b)
+  const result = []
+
+  sorted.forEach((number, index) => {
+    // 앞 번호와 2 이상 벌어지면 사이를 접었다는 표시를 넣는다
+    if (index > 0 && number - sorted[index - 1] > 1) result.push('…')
+    result.push(number)
+  })
+
+  return result
+}
+
 export async function getPostPage({ page = 1, pageSize = PAGE_SIZE } = {}) {
   const all = await postApi.fetchPosts()
 

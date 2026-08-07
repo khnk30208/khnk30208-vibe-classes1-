@@ -102,6 +102,29 @@
   white-space: nowrap;
 }
 
+/* 아직 안 만든 것과, 만들었지만 입력이 필요한 것을 구분한다.
+   둘 다 "준비 중" 으로 두면 기능이 없는 줄 오해한다 */
+.badgeInput {
+  background: var(--info-tint);
+  color: var(--info);
+}
+
+/* 카드 안에서 입력 화면으로 보내는 링크형 버튼 */
+.linkButton {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--info);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.18s ease;
+}
+
 .headSpacer {
   flex: 1;
 }
@@ -336,6 +359,10 @@
     color: var(--ink);
     border-color: var(--pulse);
     transform: translateY(-2px);
+  }
+
+  .linkButton:hover {
+    border-bottom-color: var(--info);
   }
 
   .primaryButton:hover {

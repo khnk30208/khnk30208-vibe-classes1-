@@ -1,5 +1,6 @@
 import styles from './BoardList.module.css'
 import { formatDateTime } from '../utils/datetime'
+import { buildPageWindow } from '../service/postService'
 
 // 스스로 화면을 바꾸지 않는다. 전환은 props 로 받은 함수를 호출만 한다 (CLAUDE.md 4.4)
 export default function BoardList({
@@ -12,7 +13,8 @@ export default function BoardList({
   onWrite,
   onChangePage,
 }) {
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
+  // 전체를 다 그리지 않고 현재 페이지 주변만 남긴다 (postService 가 계산)
+  const pageNumbers = buildPageWindow(page, totalPages)
 
   return (
     <div>
@@ -71,18 +73,31 @@ export default function BoardList({
             이전
           </button>
 
-          {pageNumbers.map((number) => (
-            <button
-              key={number}
-              type="button"
-              className={[styles.pageButton, number === page ? styles.current : '']
-                .filter(Boolean)
-                .join(' ')}
-              onClick={() => onChangePage(number)}
-            >
-              {number}
-            </button>
-          ))}
+          {pageNumbers.map((number, index) =>
+            number === '…' ? (
+              // 접힌 구간 표시. 버튼이 아니므로 스크린리더에서는 건너뛴다
+              <span
+                key={`gap-${index}`}
+                className={styles.gap}
+                aria-hidden="true"
+              >
+                …
+              </span>
+            ) : (
+              <button
+                key={number}
+                type="button"
+                className={[styles.pageButton, number === page ? styles.current : '']
+                  .filter(Boolean)
+                  .join(' ')}
+                onClick={() => onChangePage(number)}
+                aria-label={`${number}페이지로 이동`}
+                aria-current={number === page ? 'page' : undefined}
+              >
+                {number}
+              </button>
+            ),
+          )}
 
           <button
             type="button"

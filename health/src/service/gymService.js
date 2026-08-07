@@ -6,6 +6,13 @@ import { distanceInMeters } from '../utils/geo'
 export const DEFAULT_RADIUS = 2000
 export const MAX_RESULTS = 12
 
+// 카카오 로컬의 radius 상한은 20000m 다. 그 안에서 고르게 한다
+export const RADIUS_OPTIONS = [
+  { value: 1000, label: '1km' },
+  { value: 2000, label: '2km' },
+  { value: 5000, label: '5km' },
+]
+
 export const SOURCE_LABEL = {
   kakao: '카카오맵',
   osm: 'OpenStreetMap',

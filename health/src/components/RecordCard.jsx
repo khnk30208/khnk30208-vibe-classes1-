@@ -4,6 +4,7 @@ import { formatDateTime } from '../utils/datetime'
 import {
   buildTrend,
   getRecords,
+  hasRecordForToday,
   removeAllRecords,
   removeRecord,
   saveRecord,
@@ -104,6 +105,8 @@ export default function RecordCard({ analysis }) {
   }
 
   const trend = buildTrend(records, 'weightKg')
+  // 같은 날 다시 저장하면 덮어쓴다. 버튼 문구로 미리 알린다
+  const savedToday = hasRecordForToday(records)
 
   return (
     <div className={styles.wrap}>
@@ -114,7 +117,7 @@ export default function RecordCard({ analysis }) {
           onClick={handleSave}
           disabled={!analysis || saving}
         >
-          {saving ? '저장 중...' : '오늘 결과 저장'}
+          {saving ? '저장 중...' : savedToday ? '오늘 기록 덮어쓰기' : '오늘 결과 저장'}
         </button>
 
         {records.length > 0 && (
@@ -175,7 +178,8 @@ export default function RecordCard({ analysis }) {
       )}
 
       <p className={styles.notice}>
-        기록은 이 브라우저에만 저장됩니다. 다른 기기에서는 보이지 않습니다.
+        기록은 하루에 한 줄만 남습니다. 같은 날 다시 저장하면 마지막 값으로
+        덮어씁니다. 이 브라우저에만 저장되며 다른 기기에서는 보이지 않습니다.
       </p>
     </div>
   )

@@ -122,6 +122,15 @@
   color: var(--panel);
 }
 
+/* 접힌 페이지 구간 표시 */
+.gap {
+  min-width: 20px;
+  color: var(--ink-3);
+  font-size: 13px;
+  text-align: center;
+  user-select: none;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .writeButton:hover {
     transform: translateY(-2px);

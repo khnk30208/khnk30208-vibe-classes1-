@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import styles from './GymCard.module.css'
-import { findNearbyGyms, getSourceLabel } from '../service/gymService'
+import {
+  DEFAULT_RADIUS,
+  RADIUS_OPTIONS,
+  findNearbyGyms,
+  getSourceLabel,
+} from '../service/gymService'
 import { formatDistance } from '../utils/geo'
 
 // 비동기 상태만 자체적으로 갖는다. 검색·정렬은 gymService 가 한다
@@ -8,13 +13,14 @@ export default function GymCard() {
   const [status, setStatus] = useState('idle')
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
+  const [radius, setRadius] = useState(DEFAULT_RADIUS)
 
   async function handleSearch() {
     setStatus('loading')
     setError('')
 
     try {
-      const found = await findNearbyGyms()
+      const found = await findNearbyGyms({ radius })
       setResult(found)
       setStatus('done')
     } catch (err) {
@@ -22,6 +28,9 @@ export default function GymCard() {
       setStatus('error')
     }
   }
+
+  const radiusLabel =
+    RADIUS_OPTIONS.find((option) => option.value === radius)?.label ?? ''
 
   // 검색 전에는 "쓸 예정인" 데이터원, 검색 후에는 "실제로 쓴" 데이터원을 보여 준다
   const sourceLabel = result?.sourceLabel ?? getSourceLabel()
@@ -37,6 +46,22 @@ export default function GymCard() {
         >
           {status === 'loading' ? '찾는 중...' : '내 주변 찾기'}
         </button>
+        <label className={styles.radiusLabel}>
+          <span className="sr-only">검색 반경</span>
+          <select
+            className={styles.radius}
+            value={radius}
+            onChange={(e) => setRadius(Number(e.target.value))}
+            disabled={status === 'loading'}
+          >
+            {RADIUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                반경 {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
         <span className={styles.source}>데이터 · {sourceLabel}</span>
       </div>
 
@@ -57,7 +82,9 @@ export default function GymCard() {
       )}
 
       {status === 'done' && result.gyms.length === 0 && (
-        <p className={styles.empty}>반경 2km 안에서 찾은 곳이 없습니다.</p>
+        <p className={styles.empty}>
+          반경 {radiusLabel} 안에서 찾은 곳이 없습니다. 반경을 넓혀 보세요.
+        </p>
       )}
 
       {status === 'done' && result.gyms.length > 0 && (

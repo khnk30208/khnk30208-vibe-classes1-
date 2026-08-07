@@ -27,8 +27,16 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' })
 }
 
-// 대시보드 카드 한 장. 이 페이지 안에서만 쓰므로 별도 파일로 빼지 않는다
-function Card({ id, title, description, ready, wide, index, action, children }) {
+// 대시보드 카드 한 장. 이 페이지 안에서만 쓰므로 별도 파일로 빼지 않는다.
+//
+// badge 는 세 상태를 구분한다
+//   null        : 바로 쓸 수 있음
+//   '입력 필요'  : 기능은 있고 건강정보만 넣으면 채워짐
+//   '준비 중'    : 아직 안 만든 기능
+// 둘을 같은 문구로 두면 만들어 둔 기능을 없는 줄 오해한다
+function Card({ id, title, description, badge, wide, index, action, children }) {
+  const needsInput = badge === '입력 필요'
+
   return (
     <Reveal
       as="section"
@@ -38,7 +46,11 @@ function Card({ id, title, description, ready, wide, index, action, children }) 
     >
       <div className={styles.cardHead}>
         <h2 className={styles.cardTitle}>{title}</h2>
-        {!ready && <span className={styles.badge}>준비 중</span>}
+        {badge && (
+          <span className={`${styles.badge} ${needsInput ? styles.badgeInput : ''}`}>
+            {badge}
+          </span>
+        )}
         {action && (
           <>
             <div className={styles.headSpacer} />
@@ -135,7 +147,6 @@ export default function HomePage() {
             <Card
               id="section-health"
               title="건강"
-              ready
               wide
               index={0}
               action={
@@ -151,7 +162,6 @@ export default function HomePage() {
               id="section-health"
               title="건강"
               description="나이·신장·체중을 입력하면 체중과 건강 상태 요약이 여기에 표시됩니다."
-              ready
               index={0}
             >
               <button type="button" className={styles.primaryButton} onClick={goInput}>
@@ -163,16 +173,16 @@ export default function HomePage() {
           <Card
             id="section-nutrients"
             title="필요한 영양소"
-            ready={Boolean(analysis)}
+            badge={analysis ? null : '입력 필요'}
             wide={Boolean(analysis)}
             index={1}
             description={
               analysis
                 ? undefined
-                : '분석 결과를 바탕으로 보충이 필요한 영양소를 알려드립니다.'
+                : '건강정보를 넣으면 혈액검사·체형·나이를 근거로 보충할 영양소를 골라 드립니다.'
             }
           >
-            {analysis && (
+            {analysis ? (
               <div className={styles.nutrientList}>
                 {nutrients.map((nutrient) => (
                   <div className={styles.nutrient} key={nutrient.key}>
@@ -188,22 +198,26 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
+            ) : (
+              <button type="button" className={styles.linkButton} onClick={goInput}>
+                건강정보 입력하기 →
+              </button>
             )}
           </Card>
 
           <Card
             id="section-foods"
             title="음식 추천"
-            ready={Boolean(analysis)}
+            badge={analysis ? null : '입력 필요'}
             wide={Boolean(analysis)}
             index={2}
             description={
               analysis
                 ? '여러 영양소를 한 번에 채우는 음식을 앞에 뒀습니다.'
-                : '부족한 영양소가 풍부한 음식을 추천해 드립니다.'
+                : '보충할 영양소가 정해지면 그 영양소가 풍부한 음식을 묶어 보여 드립니다.'
             }
           >
-            {analysis && (
+            {analysis ? (
               <div className={styles.foodList}>
                 {foods.map((food) => (
                   <span className={styles.food} key={food.name}>
@@ -212,22 +226,26 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
+            ) : (
+              <button type="button" className={styles.linkButton} onClick={goInput}>
+                건강정보 입력하기 →
+              </button>
             )}
           </Card>
 
           <Card
             id="section-exercise"
             title="운동 추천"
-            ready={Boolean(analysis)}
+            badge={analysis ? null : '입력 필요'}
             wide={Boolean(analysis)}
             index={3}
             description={
               analysis
-                ? '30분 기준 소모 열량은 체중을 넣어 계산한 값입니다.'
-                : '분석 결과에 맞는 운동과 소모 열량을 알려드립니다.'
+                ? '30분 기준 소모 열량은 입력하신 체중으로 계산한 값입니다.'
+                : '체중을 넣으면 운동별 소모 열량을 계산하고, BMI 구간에 맞는 종목을 앞에 둡니다.'
             }
           >
-            {analysis && (
+            {analysis ? (
               <div className={styles.exerciseList}>
                 {exercises.map((exercise) => (
                   <div className={styles.exercise} key={exercise.key}>
@@ -246,18 +264,22 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
+            ) : (
+              <button type="button" className={styles.linkButton} onClick={goInput}>
+                건강정보 입력하기 →
+              </button>
             )}
           </Card>
 
-          <Card id="section-gym" title="주변 헬스장" ready index={4} wide>
+          <Card id="section-gym" title="주변 헬스장" index={4} wide>
             <GymCard />
           </Card>
 
-          <Card id="section-records" title="내기록" ready index={5} wide>
+          <Card id="section-records" title="내기록" index={5} wide>
             <RecordCard analysis={analysis} />
           </Card>
 
-          <Card title="생활 습관 팁" ready index={6}>
+          <Card title="생활 습관 팁" index={6}>
             <ul className={styles.tipList}>
               {LIFESTYLE_TIPS.map((tip) => (
                 <li key={tip} className={styles.tipItem}>
