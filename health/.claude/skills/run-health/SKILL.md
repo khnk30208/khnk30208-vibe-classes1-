@@ -131,6 +131,7 @@ click button[aria-label*="어두운"]
 | `viewport <w> <h>` | 화면 크기 변경 (`viewport 375 812` 로 모바일 확인) |
 | `settle [ms]` | 애니메이션이 끝날 때까지 대기 (기본 1200ms) |
 | `media reduce` | `prefers-reduced-motion: reduce` 흉내 (모션 꺼진 상태 확인) |
+| `geo <lat> <lng>` | 위치 권한 허용 + 좌표 고정 (`geo 37.5665 126.9780` 서울시청) |
 | `console [--errors]` | 수집된 콘솔 로그를 JSON 으로 출력 |
 | `eval <js>` | `page.evaluate` |
 | `quit` | 브라우저 종료 |
@@ -165,3 +166,29 @@ npm run lint
 - **`--full` 스크린샷에는 sticky 헤더가 페이지 중간에 한 번 더 찍힌다.**
   Playwright 가 전체 페이지를 이어 붙일 때 생기는 알려진 현상이고 실제 화면 버그가
   아니다. 헤더 위치를 확인하려면 `--full` 없이 찍는다
+- **헬스장 검색은 `geo` 없이는 항상 실패한다.** 헤드리스 기본값이 위치 권한 '거부' 라
+  "위치 권한이 거부되었습니다" 만 보인다. 앱 버그가 아니다
+- **카카오 SDK 는 로딩에 최대 10초를 기다린다.** `settle 4000` 정도로 짧게 보면
+  아직 로딩 중이라 결과가 0건처럼 보인다. 카카오 경로를 볼 때는 `settle 14000`
+
+## 카카오맵이 안 될 때 원인 가르기
+
+브라우저에서는 `status 0` 으로만 보여 원인을 알 수 없다. 서버에서 직접 때려 본다
+(키가 로그에 남지 않게 `.env` 에서 읽고 출력에서 가린다):
+
+```bash
+KEY=$(grep '^VITE_KAKAO_MAP_KEY=' .env | cut -d= -f2 | tr -d '\r\n')
+curl -s -H "Referer: http://localhost:3002/" \
+  "https://dapi.kakao.com/v2/maps/sdk.js?appkey=$KEY&libraries=services&autoload=false" \
+  | sed "s/$KEY/<가림>/g" | head -c 300
+```
+
+| 응답 | 뜻 | 조치 |
+|---|---|---|
+| `200` (JS 코드) | 정상 | — |
+| `401 AccessDeniedError · domain mismatched` | 그 주소가 등록 안 됨 | 앱 설정 > 플랫폼 > Web 에 해당 origin 추가 |
+| `403 NotAuthorizedError · disabled OPEN_MAP_AND_LOCAL` | 앱은 맞지만 **카카오맵 서비스가 꺼져 있음** | 제품 설정 > 카카오맵 > 활성화 ON |
+| `401 · invalid appkey` | REST API 키를 넣었음 | JavaScript 키로 교체 |
+
+- 카카오가 실패해도 `gymService` 가 Overpass 로 되돌아가므로 결과는 나온다.
+  화면에 되돌아온 이유가 표시되니 그 문구를 먼저 읽는다

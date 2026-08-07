@@ -29,6 +29,7 @@ const screenshotDir = path.join(__dirname, 'sessions', sessionName, 'screenshots
 fs.mkdirSync(screenshotDir, { recursive: true })
 
 let browser
+let context
 let page
 const consoleLogs = []
 let shotCount = 0
@@ -36,7 +37,7 @@ let shotCount = 0
 async function ensurePage() {
   if (!page) {
     browser = await chromium.launch({ headless: true })
-    const context = await browser.newContext({
+    context = await browser.newContext({
       viewport: { width: 1280, height: 900 },
       locale: 'ko-KR',
     })
@@ -143,6 +144,21 @@ async function cmdSettle(rest) {
   console.log(`OK settle ${ms}ms`)
 }
 
+// 위치 권한을 허용하고 좌표를 고정한다. 헤드리스는 기본이 '거부' 라 헬스장 검색을 못 본다
+async function cmdGeo(rest) {
+  await ensurePage()
+  const [lat, lng] = (rest || '').trim().split(/\s+/).map(Number)
+
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    console.log('ERR geo: 위도와 경도를 숫자로 주세요 (예: geo 37.5665 126.9780)')
+    return
+  }
+
+  await context.grantPermissions(['geolocation'])
+  await context.setGeolocation({ latitude: lat, longitude: lng })
+  console.log(`OK geo ${lat},${lng}`)
+}
+
 // prefers-reduced-motion 을 흉내 낸다. 모션이 꺼져도 값이 다 보이는지 확인용
 async function cmdMedia(rest) {
   const p = await ensurePage()
@@ -190,6 +206,7 @@ async function handleLine(line) {
       case 'press': return await cmdPress(rest)
       case 'viewport': return await cmdViewport(rest)
       case 'settle': return await cmdSettle(rest)
+      case 'geo': return await cmdGeo(rest)
       case 'media': return await cmdMedia(rest)
       case 'console': return await cmdConsole(rest)
       case 'eval': return await cmdEval(rest)
