@@ -1,0 +1,359 @@
+/* 건강 결과 그래프 공용 스타일.
+   애니메이션은 CSS 만으로 마운트 시 재생된다. JS 가 없어도 최종 상태가 보인다.
+   prefers-reduced-motion 은 index.css 에서 전역으로 무력화한다 */
+
+/* ---------- 공통 ---------- */
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chartHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.chartLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+}
+
+.chartValue {
+  margin-left: auto;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.status {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ok {
+  color: var(--ok);
+}
+
+.warn {
+  color: var(--warn);
+}
+
+.alert {
+  color: var(--alert);
+}
+
+/* ---------- BMI 게이지 ---------- */
+.gauge {
+  position: relative;
+  display: flex;
+  height: 26px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--track);
+}
+
+.band {
+  height: 100%;
+  animation: bandIn 0.5s var(--ease) both;
+}
+
+.band1 { background: var(--bmi-1); }
+.band2 { background: var(--bmi-2); }
+.band3 { background: var(--bmi-3); }
+.band4 { background: var(--bmi-4); }
+.band5 { background: var(--bmi-5); }
+.band6 { background: var(--bmi-6); }
+
+@keyframes bandIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 게이지 위를 한 번 지나가는 신호선 */
+.gauge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--pulse);
+  animation: sweep 0.62s cubic-bezier(0.3, 0.72, 0.25, 1) both;
+}
+
+@keyframes sweep {
+  0% { opacity: 1; left: 0; }
+  88% { opacity: 1; }
+  100% { opacity: 0; left: 100%; }
+}
+
+.gaugeWrap {
+  position: relative;
+  padding-top: 22px;
+}
+
+/* 내 위치 마커. 데이터 색이 아니라 신호색을 쓴다 */
+.marker {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: markerIn 0.7s var(--ease-pop) both;
+}
+
+@keyframes markerIn {
+  from { left: 0; opacity: 0; }
+  to { left: var(--x); opacity: 1; }
+}
+
+.markerValue {
+  padding: 1px 7px;
+  border-radius: var(--r-xs);
+  background: var(--pulse);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.markerStem {
+  width: 2px;
+  height: 8px;
+  background: var(--pulse);
+}
+
+.ticks {
+  position: relative;
+  height: 15px;
+}
+
+.tick {
+  position: absolute;
+  left: var(--x);
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 2px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.legendItem i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.legendOn {
+  color: var(--ink);
+}
+
+/* ---------- 참고범위 막대 (혈액검사·체지방률) ---------- */
+.rangeTrack {
+  position: relative;
+  height: 14px;
+  border-radius: 100px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+/* 정상 참고 범위 구간 */
+.rangeNormal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--from);
+  width: var(--span);
+  background: var(--ok-tint);
+  border-left: 1px solid var(--ok);
+  border-right: 1px solid var(--ok);
+  animation: bandIn 0.45s var(--ease) both;
+}
+
+.rangeMarkerWrap {
+  position: relative;
+  height: 14px;
+  margin-top: -14px;
+}
+
+.rangeMarker {
+  position: absolute;
+  top: -2px;
+  left: var(--x);
+  width: 4px;
+  height: 18px;
+  border-radius: 3px;
+  transform: translateX(-50%);
+  animation: markerIn 0.66s var(--ease-pop) both;
+}
+
+.markerOk { background: var(--ok); }
+.markerWarn { background: var(--warn); }
+.markerAlert { background: var(--alert); }
+
+/* ---------- 비교 막대 ---------- */
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.barLabel {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.barTrack {
+  height: 12px;
+  border-radius: 100px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  width: var(--w);
+  animation: grow 0.58s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes grow {
+  from { width: 0; }
+  to { width: var(--w); }
+}
+
+.fillInfo { background: var(--info); }
+.fillOk { background: var(--ok); }
+.fillGrad { background: var(--grad-deco); }
+.fillMuted { background: var(--line-2); }
+
+.barValue {
+  min-width: 74px;
+  text-align: right;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.barUnit {
+  margin-left: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+/* ---------- 목표 진행 ---------- */
+.goal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.goalTrack {
+  position: relative;
+  height: 12px;
+  border-radius: 100px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.goalFill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: var(--grad-deco);
+  width: var(--w);
+  animation: grow 0.62s var(--ease) both;
+}
+
+.goalEnds {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.goalEnds b {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.goalFigure {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.goalDays {
+  font-size: clamp(30px, 5vw, 38px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+
+.goalUnit {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+@media (max-width: 480px) {
+  .barRow {
+    grid-template-columns: 76px 1fr auto;
+    gap: 8px;
+  }
+
+  .barValue {
+    min-width: 64px;
+    font-size: 12.5px;
+  }
+}

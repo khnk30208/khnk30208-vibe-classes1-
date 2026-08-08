@@ -1,0 +1,111 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 22px;
+  border-top: 2px solid var(--ink);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.input,
+.textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+  color: var(--ink);
+  font-family: var(--font-gothic);
+  font-size: 15px;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.textarea {
+  min-height: 260px;
+  resize: vertical;
+  line-height: 1.8;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--info);
+  background: var(--panel);
+}
+
+.counter {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.error {
+  margin: 0;
+  padding: 11px 13px;
+  border-left: 3px solid var(--alert);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: var(--alert-tint);
+  color: var(--alert);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 9px;
+}
+
+.submit,
+.cancel {
+  padding: 11px 24px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-gothic);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.submit {
+  border: 0;
+  background: var(--grad);
+  color: #fff;
+  box-shadow: var(--sh-2);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel {
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  color: var(--ink-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+  }
+
+  .cancel:hover {
+    border-color: var(--pulse);
+    color: var(--ink);
+  }
+}

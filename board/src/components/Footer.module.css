@@ -1,0 +1,38 @@
+.footer {
+  margin-top: auto;
+  background: linear-gradient(180deg, #5e655a 0%, #2f342b 100%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  max-width: 960px;
+  min-height: 56px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.menuButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 72%);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.menuButton:hover,
+.menuButton.active {
+  color: #fff;
+}
+
+.menuButton.active {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}

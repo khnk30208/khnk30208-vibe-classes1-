@@ -1,0 +1,304 @@
+/* 참고 HTML 의 "컷 리듬" 구조를 따른다 (doc/nutrient-radar.md 4장) */
+.panel {
+  position: relative;
+  margin-top: 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel-2);
+  overflow: hidden;
+}
+
+/* 현재 군의 진행률. rAF 가 --beat 를 0~1 로 써 준다 */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--pulse);
+  transform: scaleX(var(--beat, 0));
+  transform-origin: 0 50%;
+  transition: transform 0.12s linear;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: var(--pulse-soft);
+  color: var(--pulse);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pulse);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.clock {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.playButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-gothic);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s var(--ease);
+}
+
+.playButton svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---------- 본문 2단 ---------- */
+.body {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 18px 22px;
+  padding: 18px 16px 20px;
+}
+
+/* 왼쪽: 설명 */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.rank {
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--pulse-soft);
+  color: var(--pulse);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.groupName {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+
+.groupScore {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.scoreUnit {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blockTitle {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+
+.reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.reason {
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--warn-tint);
+  color: var(--warn);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.reasonCalm {
+  background: var(--ok-tint);
+  color: var(--ok);
+}
+
+.nutrientList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.nutrient {
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+}
+
+.nutrientName {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.nutrientWhy {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.foods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.food {
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--panel);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* 오른쪽: 레이더 */
+.chartSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chartNote {
+  color: var(--ink-3);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 군이 바뀔 때 왼쪽 설명이 살짝 올라오며 교체된다 */
+.swap {
+  animation: swapIn 0.34s var(--ease) both;
+}
+
+@keyframes swapIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .playButton:hover {
+    border-color: var(--pulse);
+    transform: translateY(-2px);
+  }
+}
+
+/* 760px 미만은 1열. 레이더를 위로 올려 시각적 기준점을 먼저 보여 준다 */
+@media (max-width: 760px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .chartSide {
+    order: -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live::before {
+    animation: none;
+  }
+
+  .swap {
+    animation: none;
+  }
+}

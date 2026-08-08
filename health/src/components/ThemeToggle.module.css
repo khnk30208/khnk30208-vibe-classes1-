@@ -1,0 +1,53 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s var(--ease);
+}
+
+.button svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* 라이트일 때는 달(다크로 전환), 다크일 때는 해(라이트로 전환)를 보여준다 */
+.sun {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .sun {
+  display: block;
+}
+
+:global(:root[data-theme='dark']) .moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .sun {
+    display: block;
+  }
+
+  :global(:root:not([data-theme='light'])) .moon {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    color: var(--ink);
+    border-color: var(--pulse);
+    transform: translateY(-2px);
+  }
+}

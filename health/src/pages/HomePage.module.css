@@ -1,0 +1,333 @@
+.page {
+  width: min(calc(100% - var(--gutter) * 2), var(--content-max));
+  margin-inline: auto;
+  padding: 40px 0 56px;
+}
+
+/* 우측 독이 콘텐츠를 덮는 구간에서만 오른쪽을 비워 준다.
+   1100px 을 넘으면 독이 콘텐츠 바깥에 놓여 비울 필요가 없다 */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .page {
+    padding-right: 64px;
+  }
+}
+
+/* ---------- 페이지 머리 ---------- */
+.head {
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--pulse);
+}
+
+.eyebrow::after {
+  content: '';
+  width: 30px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--pulse);
+  opacity: 0.35;
+}
+
+.pageTitle {
+  font-size: clamp(27px, 4.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.042em;
+  line-height: 1.18;
+  color: var(--ink);
+}
+
+.lead {
+  margin-top: 10px;
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--ink-2);
+}
+
+/* ---------- 카드 격자 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 19px 20px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--sh-2);
+  /* sticky 헤더에 가리지 않게 스크롤 목적지를 내려 준다 */
+  scroll-margin-top: calc(var(--header-h) + 18px);
+}
+
+.cardWide {
+  grid-column: 1 / -1;
+}
+
+/* 마지막 줄의 오른쪽 끝 칸. 열이 하나뿐인 좁은 화면에서는 그냥 아래로 쌓인다 */
+.cardEnd {
+  grid-column: -2 / -1;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.badge {
+  padding: 2px 9px;
+  border-radius: 100px;
+  background: var(--panel-3);
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* 아직 안 만든 것과, 만들었지만 입력이 필요한 것을 구분한다.
+   둘 다 "준비 중" 으로 두면 기능이 없는 줄 오해한다 */
+.badgeInput {
+  background: var(--info-tint);
+  color: var(--info);
+}
+
+/* 카드 안에서 입력 화면으로 보내는 링크형 버튼 */
+.linkButton {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--info);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.18s ease;
+}
+
+.headSpacer {
+  flex: 1;
+}
+
+.cardDescription {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* ---------- 버튼 ---------- */
+.cardButton {
+  padding: 7px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  font-family: var(--font-gothic);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s var(--ease);
+}
+
+.primaryButton {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--grad);
+  color: #fff;
+  font-family: var(--font-gothic);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: var(--sh-2);
+  transition:
+    transform 0.24s var(--ease),
+    box-shadow 0.24s var(--ease),
+    filter 0.24s ease;
+}
+
+/* ---------- 생활 습관 팁 ---------- */
+.tipList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.tipItem {
+  position: relative;
+  padding-left: 17px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.tipItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--ok);
+}
+
+/* 영양소 카드 본문은 NutrientPriority 가 자체 스타일로 그린다 */
+
+/* ---------- 음식 ---------- */
+.foodList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.food {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--panel-2);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.foodTag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ok);
+}
+
+/* ---------- 운동 ---------- */
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.exercise {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+}
+
+.exerciseName {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.exerciseBurn {
+  grid-row: 1;
+  grid-column: 2;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--info);
+  white-space: nowrap;
+}
+
+.exerciseMeta {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.pill {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 1px 7px;
+  border-radius: 100px;
+  background: var(--panel-3);
+  color: var(--ink-2);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+/* ---------- 입력 화면 ---------- */
+.inputHead {
+  margin-bottom: 20px;
+}
+
+.disclaimer {
+  margin-top: 26px;
+  padding: 13px 15px;
+  border-left: 3px solid var(--line-2);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: var(--panel-2);
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card {
+    transition:
+      box-shadow 0.28s var(--ease),
+      transform 0.28s var(--ease);
+  }
+
+  .card:hover {
+    box-shadow: var(--sh-3);
+    transform: translateY(-3px);
+  }
+
+  .cardButton:hover {
+    color: var(--ink);
+    border-color: var(--pulse);
+    transform: translateY(-2px);
+  }
+
+  .linkButton:hover {
+    border-bottom-color: var(--info);
+  }
+
+  .primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+    filter: saturate(1.12);
+  }
+}

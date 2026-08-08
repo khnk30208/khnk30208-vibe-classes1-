@@ -1,0 +1,151 @@
+/* 헤더 배경.
+   doc/design-system.md 2.2 — 참고 HTML 의 상단 바처럼 반투명 + 블러로 바꿨다.
+   회색 그라데이션으로 되돌리려면 아래 --header-bg 한 줄만 교체하면 된다:
+   --header-bg: linear-gradient(180deg, #6b7280 0%, #374151 100%); */
+.header {
+  --header-bg: color-mix(in srgb, var(--plane) 88%, transparent);
+
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  background: var(--plane);
+  background: var(--header-bg);
+  backdrop-filter: saturate(1.6) blur(12px);
+  -webkit-backdrop-filter: saturate(1.6) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 100%;
+  width: min(calc(100% - var(--gutter) * 2), var(--content-max));
+  margin-inline: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* 메뉴는 링크가 아니라 버튼이다. 링크를 쓰면 새로고침이 일어난다 */
+.menuButton {
+  position: relative;
+  height: var(--header-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+/* 활성 표시는 밑줄 바. transform 으로 그려 레이아웃을 밀지 않는다 */
+.menuButton::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--pulse);
+  transform: scaleX(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.26s var(--ease);
+}
+
+.menuButton.active {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.menuButton.active::after {
+  transform: scaleX(1);
+}
+
+/* Home 은 로고 자리다. 마크와 함께 그린다 */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.logo::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-sm);
+  background: var(--grad-deco);
+  flex: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+.loginButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink-2);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menuButton:hover,
+  .loginButton:hover {
+    color: var(--ink);
+  }
+
+  .menuButton:not(.active):hover::after {
+    transform: scaleX(0.45);
+    background: var(--line-2);
+  }
+}
+
+@media (max-width: 560px) {
+  .inner {
+    gap: 14px;
+  }
+
+  .nav {
+    gap: 14px;
+  }
+
+  .menuButton,
+  .loginButton {
+    font-size: 17px;
+  }
+
+  .logo {
+    letter-spacing: 0.02em;
+  }
+}

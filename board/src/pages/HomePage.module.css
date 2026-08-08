@@ -1,0 +1,209 @@
+/* 대문 페이지 — 채도를 낮춘 연두색 바탕 위의 브랜드 사이트 톤.
+   숫자(시간·기온)만 세리프로 크게 세우고, 나머지 한글은 가벼운 고딕으로 눌러
+   대비를 만든다. 시계를 세리프로 짜는 것이 이 화면의 성격이다 */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: clamp(48px, 9vh, 96px) 24px;
+}
+
+.inner {
+  width: 100%;
+  max-width: 880px;
+}
+
+/* ── 머리말 ─────────────────────────────── */
+
+.masthead {
+  margin-bottom: clamp(36px, 6vh, 64px);
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.display {
+  margin: 0;
+  font-size: clamp(34px, 5.4vw, 58px);
+  font-weight: 300;
+  line-height: 1.24;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+/* ── 두 도시 ─────────────────────────────── */
+
+.diptych {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  background: rgb(255 255 255 / 52%);
+  border: 1px solid var(--hairline);
+  box-shadow:
+    0 1px 2px rgb(33 38 25 / 4%),
+    0 32px 60px -40px rgb(33 38 25 / 45%);
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s both;
+}
+
+/* 두 판을 가르는 실선 하나 — 카드 두 장이 아니라 한 장을 나눈 것이다 */
+.panel + .panel {
+  border-left: 1px solid var(--hairline);
+}
+
+.panel {
+  padding: clamp(30px, 4vw, 46px) clamp(24px, 3.4vw, 42px);
+}
+
+.latin {
+  margin: 0 0 6px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  color: var(--ink-faint);
+}
+
+.korean {
+  margin: 0 0 clamp(22px, 3.4vh, 34px);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ── 시계 ─────────────────────────────── */
+
+.clock {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-family: var(--font-serif);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.meridiem {
+  font-family: var(--font-gothic);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+
+.hourMinute {
+  font-size: clamp(40px, 6vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+/* 초는 작게 눌러 시·분에 시선이 먼저 가게 한다 */
+.second {
+  font-size: clamp(15px, 1.8vw, 19px);
+  color: var(--ink-faint);
+}
+
+.date {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+
+.rule {
+  height: 1px;
+  margin: clamp(22px, 3.4vh, 34px) 0;
+  background: var(--hairline);
+}
+
+/* ── 날씨 ─────────────────────────────── */
+
+.reading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 78px;
+}
+
+.glyph {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  color: var(--ink-soft);
+}
+
+.temp {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4.4vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.degree {
+  color: var(--ink-faint);
+}
+
+.desc {
+  margin: 8px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  min-height: 78px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.8;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  word-break: keep-all;
+}
+
+.noteAlert {
+  color: #8a5a2b;
+}
+
+/* ── 반응형 ─────────────────────────────── */
+
+@media (width <= 680px) {
+  .diptych {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel + .panel {
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead,
+  .diptych {
+    animation: none;
+  }
+}

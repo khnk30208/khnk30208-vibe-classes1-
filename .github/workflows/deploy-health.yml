@@ -1,0 +1,64 @@
+name: health 배포 (GitHub Pages)
+
+# main 에 health/ 가 바뀌면 배포한다.
+# 수동 실행도 가능하다 (Actions 탭 > Run workflow)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'health/**'
+      - '.github/workflows/deploy-health.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치면 나중 것만 남긴다
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: health
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: health/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - name: 빌드
+        env:
+          # 프로젝트 사이트는 /<저장소이름>/ 아래에 놓인다
+          VITE_BASE: /${{ github.event.repository.name }}/
+          # 키가 없어도 빌드된다. 그때는 OpenStreetMap 으로 동작한다
+          VITE_KAKAO_MAP_KEY: ${{ secrets.VITE_KAKAO_MAP_KEY }}
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: health/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

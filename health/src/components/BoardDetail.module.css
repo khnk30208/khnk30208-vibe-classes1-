@@ -1,0 +1,89 @@
+.article {
+  border-top: 2px solid var(--ink);
+}
+
+.head {
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.postTitle {
+  margin-bottom: 9px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.content {
+  min-height: 180px;
+  padding: 24px 4px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.confirmText {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--alert);
+}
+
+.button {
+  padding: 9px 17px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  font-family: var(--font-gothic);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.danger {
+  border-color: color-mix(in srgb, var(--alert) 45%, transparent);
+  color: var(--alert);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    border-color: var(--pulse);
+    color: var(--ink);
+  }
+
+  .danger:hover {
+    background: var(--alert-tint);
+    border-color: var(--alert);
+    color: var(--alert);
+  }
+}

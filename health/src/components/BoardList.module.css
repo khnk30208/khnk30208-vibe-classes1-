@@ -1,0 +1,166 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.count {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.writeButton {
+  padding: 9px 18px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--grad);
+  color: #fff;
+  font-family: var(--font-gothic);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--sh-2);
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    filter 0.22s ease;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid var(--ink);
+}
+
+.th {
+  padding: 11px 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-3);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.td {
+  padding: 13px 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.titleCell {
+  width: 100%;
+}
+
+/* 제목은 링크가 아니라 버튼이다. 링크를 쓰면 새로고침이 일어난다 */
+.titleButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-gothic);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.meta {
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.empty {
+  padding: 52px 0;
+  color: var(--ink-3);
+  font-size: 14px;
+  text-align: center;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 22px;
+}
+
+.pageButton {
+  min-width: 34px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  font-family: var(--font-gothic);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.pageButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageButton.current {
+  border-color: transparent;
+  background: var(--ink);
+  color: var(--panel);
+}
+
+/* 접힌 페이지 구간 표시 */
+.gap {
+  min-width: 20px;
+  color: var(--ink-3);
+  font-size: 13px;
+  text-align: center;
+  user-select: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .writeButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-3);
+    filter: saturate(1.1);
+  }
+
+  .titleButton:hover {
+    color: var(--info);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .pageButton:hover:not(:disabled):not(.current) {
+    border-color: var(--pulse);
+    color: var(--ink);
+  }
+
+  .table tbody tr {
+    transition: background-color 0.16s ease;
+  }
+
+  .table tbody tr:hover {
+    background: var(--panel-2);
+  }
+}
+
+@media (max-width: 560px) {
+  .th:nth-child(2),
+  .td:nth-child(2) {
+    display: none;
+  }
+}

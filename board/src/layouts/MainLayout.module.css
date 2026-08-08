@@ -1,0 +1,32 @@
+/* 바탕은 앱 전체가 공유한다.
+   부드러운 빛 두 겹을 얹어 단조로운 그라데이션을 피한다 */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      1100px 620px at 12% -5%,
+      rgb(255 255 255 / 80%),
+      transparent 62%
+    ),
+    radial-gradient(
+      880px 700px at 88% 105%,
+      rgb(168 190 141 / 38%),
+      transparent 66%
+    ),
+    linear-gradient(
+      168deg,
+      var(--canvas-top) 0%,
+      var(--canvas-mid) 54%,
+      var(--canvas-bottom) 100%
+    );
+}
+
+/* 폭 제한(work.md 5. UI 의 960px)은 각 화면 안에서 건다 */
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
