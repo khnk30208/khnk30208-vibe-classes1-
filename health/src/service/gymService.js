@@ -40,6 +40,31 @@ function decorate(gyms, origin) {
 }
 
 /**
+ * 저장용 텍스트. 이름 · 거리 · 주소 · 전화번호만 담는다.
+ * 위치 좌표는 넣지 않는다 (CLAUDE.md 5장 — 위치는 검색에만 쓴다)
+ */
+export function buildGymText(result) {
+  if (!result?.gyms?.length) return ''
+
+  const lines = [
+    '주변 헬스장',
+    `데이터: ${result.sourceLabel}`,
+    `저장일: ${new Date().toLocaleString('ko-KR')}`,
+    '',
+  ]
+
+  result.gyms.forEach((gym, index) => {
+    lines.push(`${index + 1}. ${gym.name}`)
+    lines.push(`   거리: ${gym.distance}m`)
+    lines.push(`   주소: ${gym.address || '정보 없음'}`)
+    lines.push(`   전화: ${gym.phone || '정보 없음'}`)
+    lines.push('')
+  })
+
+  return lines.join('\n')
+}
+
+/**
  * 현재 위치 기준으로 주변 헬스장을 찾는다.
  * 위치는 검색에만 쓰고 어디에도 저장하지 않는다 (CLAUDE.md 5장)
  *

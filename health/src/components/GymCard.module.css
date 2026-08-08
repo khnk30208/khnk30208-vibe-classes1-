@@ -53,6 +53,26 @@
   cursor: not-allowed;
 }
 
+.saveButton {
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink-2);
+  font-family: var(--font-gothic);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.saveButton:hover {
+  border-color: var(--pulse);
+  color: var(--ink);
+}
+
 .source {
   font-family: var(--mono);
   font-size: 11.5px;

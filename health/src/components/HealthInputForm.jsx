@@ -7,6 +7,13 @@ import {
   DEFAULT_DAILY_DEFICIT,
   GENDERS,
 } from '../constants/healthCriteria'
+import {
+  SLIDER_STEPS,
+  buildBloodSliderRange,
+  getBloodDecimals,
+  sliderStepToValue,
+  valueToSliderStep,
+} from '../service/healthService'
 
 const EMPTY_FORM = {
   gender: 'male',
@@ -173,20 +180,60 @@ export default function HealthInputForm({ initialValue, error, onSubmit, onCance
           <span className={styles.optional}>선택 · 입력한 항목만 해석합니다</span>
         </legend>
 
-        <div className={styles.grid}>
-          {BLOOD_TESTS.map((test) => (
-            <label key={test.key} className={styles.label}>
-              {test.label} ({test.unit})
-              <input
-                type="number"
-                name={`blood_${test.key}`}
-                step="0.1"
-                className={styles.input}
-                value={form.bloodTests?.[test.key] ?? ''}
-                onChange={(e) => setBloodTest(test.key, e.target.value)}
-              />
-            </label>
-          ))}
+        {/* 숫자를 직접 치는 대신 볼륨처럼 끌어서 맞춘다.
+            맨 왼쪽은 '취소'(미입력), 정가운데는 성별에 맞는 참고범위 중앙값이다 */}
+        <div className={styles.sliderGrid}>
+          {BLOOD_TESTS.map((test) => {
+            const range = buildBloodSliderRange(test, form.gender)
+            const decimals = getBloodDecimals(test)
+            const step = valueToSliderStep(form.bloodTests?.[test.key], range)
+            const value = sliderStepToValue(step, range, decimals)
+            const off = step === 0
+
+            return (
+              <div className={styles.slider} key={test.key}>
+                <div className={styles.sliderHead}>
+                  <label className={styles.sliderLabel} htmlFor={`blood_${test.key}`}>
+                    {test.label}
+                  </label>
+                  <span
+                    className={`${styles.sliderValue} ${off ? styles.sliderOff : ''}`}
+                  >
+                    {off ? '미입력' : `${value} ${test.unit}`}
+                  </span>
+                </div>
+
+                <div className={styles.sliderTrack}>
+                  <span className={styles.centerMark} aria-hidden="true" />
+                  <input
+                    id={`blood_${test.key}`}
+                    name={`blood_${test.key}`}
+                    type="range"
+                    className={`${styles.range} ${off ? styles.rangeOff : ''}`}
+                    min="0"
+                    max={SLIDER_STEPS}
+                    step="1"
+                    value={step}
+                    style={{ '--fill': `${(step / SLIDER_STEPS) * 100}%` }}
+                    aria-valuetext={off ? '미입력' : `${value} ${test.unit}`}
+                    onChange={(e) => {
+                      const nextStep = Number(e.target.value)
+                      const nextValue = sliderStepToValue(nextStep, range, decimals)
+                      setBloodTest(test.key, nextValue === null ? '' : String(nextValue))
+                    }}
+                  />
+                </div>
+
+                <div className={styles.sliderScale}>
+                  <span>취소</span>
+                  <span className={styles.scaleCenter}>
+                    평균 {Math.round(range.center * 10) / 10}
+                  </span>
+                  <span>{range.max}</span>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </fieldset>
 

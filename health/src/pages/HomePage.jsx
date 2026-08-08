@@ -12,7 +12,12 @@ import SectionDock from '../components/SectionDock'
 import Reveal from '../components/Reveal'
 import { analyze, validateHealthInput } from '../service/healthService'
 import { recommendFoods, recommendNutrients } from '../service/nutritionService'
-import { recommendExercises, WEEKLY_AEROBIC_MINUTES } from '../service/exerciseService'
+import {
+  WEEKLY_AEROBIC_MINUTES,
+  buildExerciseText,
+  recommendExercises,
+} from '../service/exerciseService'
+import { downloadText, todayStamp } from '../utils/download'
 import { SECTIONS } from '../constants/sections'
 import { prefersReducedMotion } from '../utils/motion'
 
@@ -227,6 +232,22 @@ export default function HomePage() {
             badge={analysis ? null : '입력 필요'}
             wide={Boolean(analysis)}
             index={3}
+            action={
+              analysis ? (
+                <button
+                  type="button"
+                  className={styles.cardButton}
+                  onClick={() =>
+                    downloadText(
+                      `운동추천_${todayStamp()}.txt`,
+                      buildExerciseText(analysis),
+                    )
+                  }
+                >
+                  TXT 저장
+                </button>
+              ) : null
+            }
             description={
               analysis
                 ? '30분 기준 소모 열량은 입력하신 체중으로 계산한 값입니다.'

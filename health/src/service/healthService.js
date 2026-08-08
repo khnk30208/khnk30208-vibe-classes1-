@@ -34,6 +34,10 @@ function inRange(value, limit) {
   return value >= limit.min && value <= limit.max
 }
 
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max)
+}
+
 // 필수값 검사. 통과해야 계산에 들어간다
 export function validateHealthInput(raw) {
   const gender = raw.gender
@@ -78,6 +82,65 @@ export function validateHealthInput(raw) {
   }
 
   return null
+}
+
+/* ============================================================
+   혈액검사 슬라이더 (doc/input-slider.md)
+
+   0 = 미입력(취소). 1~SLIDER_STEPS 가 실제 값에 대응한다.
+   슬라이더의 정가운데가 "성별에 맞는 참고범위 중앙값" 이 되도록 좌우를 따로 매핑한다.
+   범위를 한 번에 선형으로 늘리면 중앙값이 가운데에 오지 않거나
+   축 하한이 음수가 되는 항목이 생긴다
+   ============================================================ */
+
+// 홀수여야 정중앙 칸이 생긴다. 짝수면 가운데가 두 칸 사이로 떨어져
+// 평균값을 정확히 집을 수 없다
+export const SLIDER_STEPS = 41
+
+// 축 폭이 좁은 항목(헤모글로빈)만 소수 첫째 자리까지 쓴다
+export function getBloodDecimals(test) {
+  return test.axis.max - test.axis.min <= 30 ? 1 : 0
+}
+
+export function buildBloodSliderRange(test, gender) {
+  const normal = test.normalByGender ? test.normalByGender[gender] : test.normal
+  const low = normal?.min ?? test.axis.min
+  const high = normal?.max ?? test.axis.max
+
+  return {
+    min: test.axis.min,
+    max: test.axis.max,
+    // 참고범위의 중앙값. 이 값이 슬라이더 정가운데에 온다
+    center: (low + high) / 2,
+  }
+}
+
+export function sliderStepToValue(step, range, decimals) {
+  if (!Number.isFinite(step) || step <= 0) return null
+
+  const t = (step - 1) / (SLIDER_STEPS - 1)
+  const raw =
+    t <= 0.5
+      ? range.min + (range.center - range.min) * (t / 0.5)
+      : range.center + (range.max - range.center) * ((t - 0.5) / 0.5)
+
+  if (!Number.isFinite(raw)) return null
+
+  const factor = 10 ** decimals
+
+  return Math.round(raw * factor) / factor
+}
+
+export function valueToSliderStep(value, range) {
+  const numeric = toNumberOrNull(value)
+  if (numeric === null) return 0
+
+  const t =
+    numeric <= range.center
+      ? ((numeric - range.min) / (range.center - range.min)) * 0.5
+      : 0.5 + ((numeric - range.center) / (range.max - range.center)) * 0.5
+
+  return clamp(Math.round(t * (SLIDER_STEPS - 1)) + 1, 1, SLIDER_STEPS)
 }
 
 export function calcBmi({ heightCm, weightKg }) {

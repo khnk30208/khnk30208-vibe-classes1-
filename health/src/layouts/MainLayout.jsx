@@ -68,6 +68,10 @@ export default function MainLayout() {
         activeMenu={authView ? null : activeMenu}
         onSelectMenu={selectMenu}
       />
+
+      {/* 시선을 화면 가운데로 모으는 장식. 내용을 가리지 않게 클릭은 통과시킨다 */}
+      <div className={`${styles.fade} ${styles.fadeTop}`} aria-hidden="true" />
+      <div className={`${styles.fade} ${styles.fadeBottom}`} aria-hidden="true" />
     </div>
   )
 }

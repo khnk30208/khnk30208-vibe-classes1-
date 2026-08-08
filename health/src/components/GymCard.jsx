@@ -3,10 +3,12 @@ import styles from './GymCard.module.css'
 import {
   DEFAULT_RADIUS,
   RADIUS_OPTIONS,
+  buildGymText,
   findNearbyGyms,
   getSourceLabel,
 } from '../service/gymService'
 import { formatDistance } from '../utils/geo'
+import { downloadText, todayStamp } from '../utils/download'
 
 // 비동기 상태만 자체적으로 갖는다. 검색·정렬은 gymService 가 한다
 export default function GymCard() {
@@ -61,6 +63,18 @@ export default function GymCard() {
             ))}
           </select>
         </label>
+
+        {status === 'done' && result.gyms.length > 0 && (
+          <button
+            type="button"
+            className={styles.saveButton}
+            onClick={() =>
+              downloadText(`주변헬스장_${todayStamp()}.txt`, buildGymText(result))
+            }
+          >
+            TXT 저장
+          </button>
+        )}
 
         <span className={styles.source}>데이터 · {sourceLabel}</span>
       </div>

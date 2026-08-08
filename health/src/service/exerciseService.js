@@ -115,6 +115,38 @@ export function buildExerciseScatter(analysis) {
     .filter((exercise) => Number.isFinite(exercise.burn30))
 }
 
+/**
+ * 저장용 텍스트. 추천 종목과 소모 열량·세트를 간단히 담는다
+ */
+export function buildExerciseText(analysis) {
+  const picked = recommendExercises(analysis)
+  if (picked.length === 0) return ''
+
+  const lines = [
+    '운동 추천',
+    `기준 체중: ${analysis.weightKg}kg`,
+    `저장일: ${new Date().toLocaleString('ko-KR')}`,
+    '',
+  ]
+
+  picked.forEach((exercise, index) => {
+    lines.push(`${index + 1}. ${exercise.name}`)
+    lines.push(`   강도: ${exercise.intensity} (MET ${exercise.met}) · ${exercise.type}`)
+    lines.push(`   소모: 30분 ${exercise.burn30}kcal`)
+    lines.push(`   세트: ${exercise.sets}`)
+
+    if (exercise.minutesForGoal) {
+      lines.push(`   목표 적자를 이 운동만으로 채우면 약 ${exercise.minutesForGoal}분`)
+    }
+
+    lines.push('')
+  })
+
+  lines.push('본 내용은 일반적인 참고 정보이며 의학적 진단이 아닙니다.')
+
+  return lines.join('\n')
+}
+
 // 분을 "1시간 20분" 처럼 읽기 좋게
 export function formatMinutes(minutes) {
   if (!Number.isFinite(minutes) || minutes <= 0) return '-'
