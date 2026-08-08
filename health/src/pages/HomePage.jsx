@@ -6,6 +6,7 @@ import GymCard from '../components/GymCard'
 import NutrientPriority from '../components/NutrientPriority'
 import FoodGroups from '../components/FoodGroups'
 import ExerciseScatter from '../components/ExerciseScatter'
+import HabitTips from '../components/HabitTips'
 import RecordCard from '../components/RecordCard'
 import SectionDock from '../components/SectionDock'
 import Reveal from '../components/Reveal'
@@ -17,11 +18,14 @@ import { prefersReducedMotion } from '../utils/motion'
 
 // 사용자 데이터가 없어도 되는 일반 생활 수칙이라 분석 전에도 채워 둔다
 const LIFESTYLE_TIPS = [
-  '물은 하루 1.5~2L 를 여러 번 나눠 마시기',
-  '하루 7~8시간 규칙적으로 자기',
-  `중강도 유산소 운동을 주 ${WEEKLY_AEROBIC_MINUTES}분 이상 하기`,
-  '앉아 있는 시간 1시간마다 3~5분 일어나 움직이기',
-  '매 끼니에 채소나 과일 한 가지 이상 곁들이기',
+  { key: 'water', text: '물은 하루 1.5~2L 를 여러 번 나눠 마시기' },
+  { key: 'sleep', text: '하루 7~8시간 규칙적으로 자기' },
+  {
+    key: 'aerobic',
+    text: `중강도 유산소 운동을 주 ${WEEKLY_AEROBIC_MINUTES}분 이상 하기`,
+  },
+  { key: 'move', text: '앉아 있는 시간 1시간마다 3~5분 일어나 움직이기' },
+  { key: 'veggie', text: '매 끼니에 채소나 과일 한 가지 이상 곁들이기' },
 ]
 
 // 화면을 바꿀 때 맨 위로 되돌린다. 모션 설정을 존중해 부드러운 스크롤 여부를 가른다
@@ -37,7 +41,7 @@ function scrollToTop() {
 //   '입력 필요'  : 기능은 있고 건강정보만 넣으면 채워짐
 //   '준비 중'    : 아직 안 만든 기능
 // 둘을 같은 문구로 두면 만들어 둔 기능을 없는 줄 오해한다
-function Card({ id, title, description, badge, wide, index, action, children }) {
+function Card({ id, title, description, badge, wide, end, index, action, children }) {
   const needsInput = badge === '입력 필요'
 
   return (
@@ -45,7 +49,9 @@ function Card({ id, title, description, badge, wide, index, action, children }) 
       as="section"
       id={id}
       index={index}
-      className={`${styles.card} ${wide ? styles.cardWide : ''}`}
+      className={[styles.card, wide ? styles.cardWide : '', end ? styles.cardEnd : '']
+        .filter(Boolean)
+        .join(' ')}
     >
       <div className={styles.cardHead}>
         <h2 className={styles.cardTitle}>{title}</h2>
@@ -265,14 +271,9 @@ export default function HomePage() {
             <RecordCard analysis={analysis} />
           </Card>
 
-          <Card title="생활 습관 팁" index={6}>
-            <ul className={styles.tipList}>
-              {LIFESTYLE_TIPS.map((tip) => (
-                <li key={tip} className={styles.tipItem}>
-                  {tip}
-                </li>
-              ))}
-            </ul>
+          {/* 마지막 줄의 오른쪽 끝 빈 자리에 놓는다 */}
+          <Card title="오늘의 습관" index={6} end>
+            <HabitTips tips={LIFESTYLE_TIPS} />
           </Card>
         </div>
 

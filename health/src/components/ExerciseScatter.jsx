@@ -1,5 +1,11 @@
+import { useState } from 'react'
 import styles from './ExerciseScatter.module.css'
-import { TYPE_TONE, buildExerciseScatter, findBestValue } from '../service/exerciseService'
+import {
+  TYPE_TONE,
+  buildExerciseScatter,
+  findBestValue,
+  formatMinutes,
+} from '../service/exerciseService'
 
 // 그리기 영역
 const W = 520
@@ -21,6 +27,8 @@ const DOT_CLASS = { info: styles.dotInfo, ok: styles.dotOk, warn: styles.dotWarn
  * 실제로 고를 때 고민되는 축(소모 vs 부담)을 쓴다 (exerciseService 주석 참고)
  */
 export default function ExerciseScatter({ analysis }) {
+  // 마우스가 없는 기기도 있으므로 탭·포커스로도 열린다
+  const [activeKey, setActiveKey] = useState(null)
   const points = buildExerciseScatter(analysis)
 
   if (points.length === 0) return null
@@ -56,6 +64,16 @@ export default function ExerciseScatter({ analysis }) {
   const sweetX = toX(xMax / 2)
   const sweetY = toY(2.5)
 
+  // 툴팁은 HTML 이라 SVG 좌표를 상자 대비 비율로 바꿔 얹는다
+  const hovered = placed.find((point) => point.key === activeKey)
+  const active = hovered
+    ? {
+        ...hovered,
+        cxRatio: (toX(hovered.burn30) + hovered.dx) / W,
+        cyRatio: toY(hovered.impact) / H,
+      }
+    : null
+
   const summary = points
     .map((point) => `${point.name} ${point.burn30}kcal 부담 ${point.impactLabel}`)
     .join(', ')
@@ -67,10 +85,11 @@ export default function ExerciseScatter({ analysis }) {
         <span className={styles.count}>{points.length}개 종목</span>
       </div>
 
+      <div className={styles.plot}>
       <svg
         className={styles.chart}
         viewBox={`0 0 ${W} ${H}`}
-        role="img"
+        role="group"
         aria-label={`운동 종목별 30분 소모 열량과 관절 부담 산점도. ${summary}`}
       >
         {/* 권장 영역 */}
@@ -165,7 +184,19 @@ export default function ExerciseScatter({ analysis }) {
           const cy = toY(point.impact)
 
           return (
-            <g key={point.key}>
+            <g
+              key={point.key}
+              className={styles.hit}
+              tabIndex={0}
+              role="button"
+              aria-label={`${point.name}. 30분 ${point.burn30}kcal, 관절 부담 ${point.impactLabel}, ${point.sets}`}
+              onMouseEnter={() => setActiveKey(point.key)}
+              onMouseLeave={() => setActiveKey(null)}
+              onFocus={() => setActiveKey(point.key)}
+              onBlur={() => setActiveKey(null)}
+            >
+              {/* 점이 작아 마우스가 잘 안 잡힌다. 투명한 넓은 원을 겹쳐 둔다 */}
+              <circle cx={cx} cy={cy} r="16" fill="transparent" />
               <circle
                 className={`${styles.dot} ${DOT_CLASS[point.tone]}`}
                 cx={cx}
@@ -186,6 +217,45 @@ export default function ExerciseScatter({ analysis }) {
           )
         })}
       </svg>
+
+      {active && (
+        <div
+          className={`${styles.tip} ${
+            active.cxRatio > 0.55 ? styles.tipLeft : styles.tipRight
+          }`}
+          style={{ '--x': `${active.cxRatio * 100}%`, '--y': `${active.cyRatio * 100}%` }}
+          role="tooltip"
+        >
+          <span className={styles.tipName}>{active.name}</span>
+
+          <div className={styles.tipRow}>
+            <span className={styles.tipKey}>운동 시간</span>
+            <span className={styles.tipValue}>
+              {formatMinutes(active.minutesForTarget)}
+            </span>
+          </div>
+          <div className={styles.tipRow}>
+            <span className={styles.tipKey}>세트</span>
+            <span className={styles.tipValue}>{active.sets}</span>
+          </div>
+          <div className={styles.tipRow}>
+            <span className={styles.tipKey}>강도</span>
+            <span className={styles.tipValue}>
+              {active.intensity} · MET {active.met}
+            </span>
+          </div>
+          <div className={styles.tipRow}>
+            <span className={styles.tipKey}>관절 부담</span>
+            <span className={styles.tipValue}>{active.impactLabel}</span>
+          </div>
+
+          <span className={styles.tipNote}>
+            30분 {active.burn30}kcal 기준, {active.targetKcal}kcal 를 채우는 데 걸리는
+            시간입니다.
+          </span>
+        </div>
+      )}
+      </div>
 
       <div className={styles.legend}>
         {Object.entries(TYPE_TONE).map(([type, tone]) => (

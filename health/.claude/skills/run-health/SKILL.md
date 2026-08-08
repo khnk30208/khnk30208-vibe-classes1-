@@ -125,6 +125,7 @@ click button[aria-label*="어두운"]
 | `wait-for text=<부분문자열>` | 텍스트가 나타날 때까지 대기 (`text=` 없이 주면 CSS 셀렉터) |
 | `screenshot [이름] [--full]` | PNG 저장. `--full` 은 페이지 전체 |
 | `click <selector>` | 클릭 (Playwright 셀렉터 문법, 예: `button:has-text("검색")`) |
+| `hover <selector>` | 마우스 올리기 (호버로만 열리는 툴팁 확인용) |
 | `fill <selector> <value>` | 입력 |
 | `select <selector> <value>` | `<select>` 옵션 선택 |
 | `press <key>` | 키 입력 (`Enter`, `Escape`) |

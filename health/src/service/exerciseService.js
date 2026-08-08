@@ -81,17 +81,49 @@ export const IMPACT_LABEL = {
  * 강도(MET)와 소모 열량은 서로 완전히 비례해 산점도가 직선이 되므로 축으로 쓰지 않는다.
  * 실제로 고를 때 고민되는 것은 "소모는 큰데 관절이 버티느냐" 이므로 그 둘을 축으로 둔다
  */
+// 목표 적자를 입력하지 않았을 때 쓸 기준 소모량
+export const DEFAULT_TARGET_KCAL = 300
+
 export function buildExerciseScatter(analysis) {
   if (!analysis || !Number.isFinite(analysis.weightKg)) return []
 
+  const deficit = analysis.goal?.dailyDeficitKcal
+  const targetKcal =
+    Number.isFinite(deficit) && deficit > 0 ? deficit : DEFAULT_TARGET_KCAL
+
   return exercises
-    .map((exercise) => ({
-      ...exercise,
-      burn30: calcBurn({ met: exercise.met, weightKg: analysis.weightKg, minutes: 30 }),
-      tone: TYPE_TONE[exercise.type] ?? 'info',
-      impactLabel: IMPACT_LABEL[exercise.impact] ?? '-',
-    }))
+    .map((exercise) => {
+      const burn30 = calcBurn({
+        met: exercise.met,
+        weightKg: analysis.weightKg,
+        minutes: 30,
+      })
+
+      return {
+        ...exercise,
+        burn30,
+        targetKcal,
+        // 목표 열량을 이 운동만으로 채울 때 걸리는 시간
+        minutesForTarget:
+          Number.isFinite(burn30) && burn30 > 0
+            ? Math.ceil((targetKcal / burn30) * 30)
+            : null,
+        tone: TYPE_TONE[exercise.type] ?? 'info',
+        impactLabel: IMPACT_LABEL[exercise.impact] ?? '-',
+      }
+    })
     .filter((exercise) => Number.isFinite(exercise.burn30))
+}
+
+// 분을 "1시간 20분" 처럼 읽기 좋게
+export function formatMinutes(minutes) {
+  if (!Number.isFinite(minutes) || minutes <= 0) return '-'
+  if (minutes < 60) return `${minutes}분`
+
+  const hours = Math.floor(minutes / 60)
+  const rest = minutes % 60
+
+  return rest === 0 ? `${hours}시간` : `${hours}시간 ${rest}분`
 }
 
 // 부담 대비 소모가 가장 좋은 종목. 핵심 문구에 쓴다

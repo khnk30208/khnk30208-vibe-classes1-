@@ -78,6 +78,11 @@
   grid-column: 1 / -1;
 }
 
+/* 마지막 줄의 오른쪽 끝 칸. 열이 하나뿐인 좁은 화면에서는 그냥 아래로 쌓인다 */
+.cardEnd {
+  grid-column: -2 / -1;
+}
+
 .cardHead {
   display: flex;
   align-items: center;

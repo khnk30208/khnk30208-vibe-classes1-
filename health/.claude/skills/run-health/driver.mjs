@@ -102,6 +102,13 @@ async function cmdClick(selector) {
   console.log(`OK click ${selector}`)
 }
 
+// 호버로만 열리는 것(툴팁 등)을 확인할 때 쓴다
+async function cmdHover(selector) {
+  const p = await ensurePage()
+  await p.hover(selector)
+  console.log(`OK hover ${selector}`)
+}
+
 async function cmdFill(rest) {
   const p = await ensurePage()
   const [selector, value] = splitSelectorAndValue(rest)
@@ -201,6 +208,7 @@ async function handleLine(line) {
       case 'wait-for': return await cmdWaitFor(rest)
       case 'screenshot': return await cmdScreenshot(rest)
       case 'click': return await cmdClick(rest)
+      case 'hover': return await cmdHover(rest)
       case 'fill': return await cmdFill(rest)
       case 'select': return await cmdSelect(rest)
       case 'press': return await cmdPress(rest)
