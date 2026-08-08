@@ -42,8 +42,8 @@ jobs:
 
       - name: 빌드
         env:
-          # 프로젝트 사이트는 /<저장소이름>/ 아래에 놓인다
-          VITE_BASE: /${{ github.event.repository.name }}/
+          # 자산 경로는 vite.config.js 가 상대 경로로 뽑는다.
+          # 저장소 이름을 박아 넣으면 이름이 바뀔 때 전부 깨진다
           # 키가 없어도 빌드된다. 그때는 OpenStreetMap 으로 동작한다
           VITE_KAKAO_MAP_KEY: ${{ secrets.VITE_KAKAO_MAP_KEY }}
         run: npm run build

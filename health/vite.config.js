@@ -2,9 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// GitHub Pages 프로젝트 사이트는 /<저장소이름>/ 아래에 놓인다.
-// 워크플로가 VITE_BASE 를 넘겨 주고, 로컬에서는 루트('/')를 쓴다
-const base = process.env.VITE_BASE || '/'
+// 자산 경로를 상대 경로로 뽑는다.
+//
+// GitHub Pages 프로젝트 사이트는 /<저장소이름>/ 아래에 놓이는데, 저장소 이름을
+// 빌드 시점에 박아 넣으면 이름이 바뀌는 순간 전부 깨진다(실제로 한 번 바뀌었다).
+// 이 앱은 라우터가 없어 상대 경로로 두면 어느 하위 경로에 올려도 그대로 동작한다.
+// 필요하면 VITE_BASE 로 덮어쓸 수 있다
+const base = process.env.VITE_BASE || (process.env.NODE_ENV === 'production' ? './' : '/')
 
 // https://vite.dev/config/
 export default defineConfig({
