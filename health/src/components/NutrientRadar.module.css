@@ -1,0 +1,130 @@
+/* 오각형 레이더. 인라인 SVG 로 그린다 (doc/nutrient-radar.md 5장) */
+.chart {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+/* 배경 그리드 */
+.ring {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ringOuter {
+  stroke: var(--line-2);
+}
+
+.axis {
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 점수 다각형. 중심에서 펴지듯 그려진다 */
+.shape {
+  transform-origin: var(--cx) var(--cy);
+  animation: spread 0.8s var(--ease-pop) both;
+}
+
+@keyframes spread {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.area {
+  fill: var(--info-tint);
+  stroke: var(--info);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.dot {
+  fill: var(--panel);
+  stroke: var(--info);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transition:
+    r 0.28s var(--ease-pop),
+    fill 0.28s ease,
+    stroke 0.28s ease;
+}
+
+/* 조명된 꼭지점. 데이터 색이 아니라 '현재 위치' 신호라 pulse 를 쓴다 */
+.dotActive {
+  fill: var(--pulse);
+  stroke: var(--pulse);
+}
+
+.halo {
+  fill: none;
+  stroke: var(--pulse);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transform-origin: var(--hx) var(--hy);
+  animation: halo 1.6s var(--ease) infinite;
+}
+
+@keyframes halo {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.85;
+  }
+
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* 축 라벨 */
+.label {
+  font-family: var(--font-gothic);
+  font-size: 11.5px;
+  font-weight: 700;
+  fill: var(--ink-3);
+  transition: fill 0.24s ease;
+}
+
+.labelActive {
+  fill: var(--ink);
+  font-weight: 800;
+}
+
+.score {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--ink-3);
+  transition: fill 0.24s ease;
+}
+
+.scoreActive {
+  fill: var(--pulse);
+  font-weight: 800;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo {
+    animation: none;
+    opacity: 0;
+  }
+}

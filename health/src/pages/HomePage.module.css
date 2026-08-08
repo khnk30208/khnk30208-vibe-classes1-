@@ -200,52 +200,7 @@
   background: var(--ok);
 }
 
-/* ---------- 영양소 ---------- */
-.nutrientList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 2px;
-}
-
-.nutrient {
-  padding: 11px 13px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: var(--panel-2);
-}
-
-.nutrientName {
-  display: block;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-
-.nutrientWhy {
-  display: block;
-  margin-top: 3px;
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--ink-2);
-}
-
-.reasons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 7px;
-}
-
-.reason {
-  padding: 2px 8px;
-  border-radius: 100px;
-  background: var(--warn-tint);
-  color: var(--warn);
-  font-size: 11px;
-  font-weight: 700;
-}
+/* 영양소 카드 본문은 NutrientPriority 가 자체 스타일로 그린다 */
 
 /* ---------- 음식 ---------- */
 .foodList {

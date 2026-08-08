@@ -3,6 +3,7 @@ import styles from './HomePage.module.css'
 import HealthInputForm from '../components/HealthInputForm'
 import HealthSummary from '../components/HealthSummary'
 import GymCard from '../components/GymCard'
+import NutrientPriority from '../components/NutrientPriority'
 import RecordCard from '../components/RecordCard'
 import SectionDock from '../components/SectionDock'
 import Reveal from '../components/Reveal'
@@ -183,21 +184,7 @@ export default function HomePage() {
             }
           >
             {analysis ? (
-              <div className={styles.nutrientList}>
-                {nutrients.map((nutrient) => (
-                  <div className={styles.nutrient} key={nutrient.key}>
-                    <span className={styles.nutrientName}>{nutrient.name}</span>
-                    <span className={styles.nutrientWhy}>{nutrient.why}</span>
-                    <div className={styles.reasons}>
-                      {nutrient.reasons.map((reason) => (
-                        <span className={styles.reason} key={reason}>
-                          {reason}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <NutrientPriority analysis={analysis} />
             ) : (
               <button type="button" className={styles.linkButton} onClick={goInput}>
                 건강정보 입력하기 →

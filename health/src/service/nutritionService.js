@@ -4,6 +4,13 @@
 // [중요] 특정 질병을 단정하지 않는다. 일반 영양 지침 수준까지만 쓴다 (CLAUDE.md 5장)
 
 import nutrients from '../assets/nutrients.json'
+import {
+  BASE_SCORE,
+  MAX_SCORE,
+  NUTRIENT_GROUPS,
+  POINT_PER_NUTRIENT,
+  POINT_PER_REASON,
+} from '../constants/nutrientGroups'
 
 const BY_KEY = new Map(nutrients.map((item) => [item.key, item]))
 
@@ -94,14 +101,75 @@ export function recommendNutrients(analysis) {
     add('vitaminD', '50세 이상에서는 뼈 손실 속도가 빨라집니다')
   }
 
-  // 아무 조건에도 걸리지 않으면 일반 균형 식단을 권한다
+  // 아무 조건에도 걸리지 않으면 일반 균형 식단을 권한다.
+  // 이 경우와 "실제로 걸린 항목이 있는 경우" 를 화면에서 구분해야 하므로 표시를 남긴다
+  let general = false
+
   if (picked.size === 0) {
+    general = true
     add('protein', '현재 상태를 유지하는 데 기본이 되는 영양소입니다')
     add('fiber', '현재 상태를 유지하는 데 기본이 되는 영양소입니다')
     add('potassium', '짜게 먹는 식습관을 보완하는 데 도움이 됩니다')
   }
 
-  return [...picked.values()]
+  return [...picked.values()].map((item) => ({ ...item, general }))
+}
+
+/**
+ * 세부 영양소 추천을 5대 영양소군으로 접어 점수를 매긴다.
+ * 오각형 레이더가 쓰는 유일한 진입점이다 (doc/nutrient-radar.md 3장)
+ *
+ * [중요] 이 점수는 "측정된 결핍" 이 아니라 "지금 신경 쓸 우선순위" 다.
+ * 이 앱은 식사 기록을 받지 않으므로 섭취량을 추정하지 않는다.
+ * 판정 규칙은 recommendNutrients() 한 곳에만 둔다. 여기서 새로 만들지 않는다
+ */
+export function scoreNutrientGroups(analysis) {
+  const picked = recommendNutrients(analysis)
+
+  const byGroup = new Map(
+    NUTRIENT_GROUPS.map((group) => [
+      group.key,
+      { ...group, score: BASE_SCORE, reasons: [], nutrients: [], foods: [] },
+    ]),
+  )
+
+  picked.forEach((nutrient) => {
+    const bucket = byGroup.get(nutrient.group)
+    if (!bucket) return
+
+    bucket.nutrients.push(nutrient)
+    bucket.score += POINT_PER_NUTRIENT
+
+    // 같은 이유가 여러 영양소로 걸려도 한 번만 센다
+    nutrient.reasons.forEach((reason) => {
+      if (bucket.reasons.includes(reason)) return
+      bucket.reasons.push(reason)
+      bucket.score += POINT_PER_REASON
+    })
+
+    nutrient.foods.forEach((food) => {
+      if (!bucket.foods.includes(food)) bucket.foods.push(food)
+    })
+  })
+
+  const ranked = [...byGroup.values()].map((group) => ({
+    ...group,
+    score: Math.min(MAX_SCORE, Math.max(0, Math.round(group.score))),
+  }))
+
+  // 동점이면 NUTRIENT_GROUPS 순서를 따른다. 그러지 않으면 정렬이 실행마다 흔들린다
+  const order = new Map(NUTRIENT_GROUPS.map((group, index) => [group.key, index]))
+
+  return ranked.sort(
+    (a, b) => b.score - a.score || order.get(a.key) - order.get(b.key),
+  )
+}
+
+// 특별히 걸린 항목 없이 일반 균형 식단만 권한 상태인지
+export function isGeneralOnly(analysis) {
+  const picked = recommendNutrients(analysis)
+
+  return picked.length > 0 && picked.every((nutrient) => nutrient.general)
 }
 
 /**
