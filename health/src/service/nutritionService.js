@@ -11,6 +11,7 @@ import {
   POINT_PER_NUTRIENT,
   POINT_PER_REASON,
 } from '../constants/nutrientGroups'
+import { FOOD_CATEGORIES, FOOD_TO_CATEGORY } from '../constants/foodCategories'
 
 const BY_KEY = new Map(nutrients.map((item) => [item.key, item]))
 
@@ -170,6 +171,31 @@ export function isGeneralOnly(analysis) {
   const picked = recommendNutrients(analysis)
 
   return picked.length > 0 && picked.every((nutrient) => nutrient.general)
+}
+
+/**
+ * 추천 음식을 식품군으로 묶는다.
+ * 음식 수가 많은 군을 앞에 둬서 "무슨 종류를 늘려야 하는지" 가 먼저 보이게 한다.
+ */
+export function groupFoodsByCategory(foods) {
+  const buckets = new Map(
+    FOOD_CATEGORIES.map((category) => [category.key, { ...category, foods: [] }]),
+  )
+
+  foods.forEach((food) => {
+    const key = FOOD_TO_CATEGORY[food.name] ?? 'etc'
+    const bucket = buckets.get(key) ?? buckets.get('etc')
+
+    bucket.foods.push(food)
+  })
+
+  const order = new Map(FOOD_CATEGORIES.map((category, index) => [category.key, index]))
+
+  return [...buckets.values()]
+    .filter((bucket) => bucket.foods.length > 0)
+    .sort(
+      (a, b) => b.foods.length - a.foods.length || order.get(a.key) - order.get(b.key),
+    )
 }
 
 /**

@@ -58,3 +58,47 @@ export function recommendExercises(analysis) {
 
 // 주당 권장 유산소 시간 (일반 지침)
 export const WEEKLY_AEROBIC_MINUTES = 150
+
+// 운동 유형별 색. 산점도 범례가 쓴다
+export const TYPE_TONE = {
+  유산소: 'info',
+  근력: 'ok',
+  유연성: 'warn',
+}
+
+export const IMPACT_LABEL = {
+  1: '매우 낮음',
+  2: '낮음',
+  3: '보통',
+  4: '높음',
+  5: '매우 높음',
+}
+
+/**
+ * 산점도용 데이터. 전체 운동을 훑는다 (추천 목록만이 아니라 비교가 목적)
+ *
+ * x = 30분 소모 열량, y = 관절 부담.
+ * 강도(MET)와 소모 열량은 서로 완전히 비례해 산점도가 직선이 되므로 축으로 쓰지 않는다.
+ * 실제로 고를 때 고민되는 것은 "소모는 큰데 관절이 버티느냐" 이므로 그 둘을 축으로 둔다
+ */
+export function buildExerciseScatter(analysis) {
+  if (!analysis || !Number.isFinite(analysis.weightKg)) return []
+
+  return exercises
+    .map((exercise) => ({
+      ...exercise,
+      burn30: calcBurn({ met: exercise.met, weightKg: analysis.weightKg, minutes: 30 }),
+      tone: TYPE_TONE[exercise.type] ?? 'info',
+      impactLabel: IMPACT_LABEL[exercise.impact] ?? '-',
+    }))
+    .filter((exercise) => Number.isFinite(exercise.burn30))
+}
+
+// 부담 대비 소모가 가장 좋은 종목. 핵심 문구에 쓴다
+export function findBestValue(points) {
+  if (points.length === 0) return null
+
+  return points.reduce((best, point) =>
+    point.burn30 / point.impact > best.burn30 / best.impact ? point : best,
+  )
+}

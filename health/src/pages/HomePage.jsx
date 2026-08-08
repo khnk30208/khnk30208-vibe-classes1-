@@ -4,6 +4,8 @@ import HealthInputForm from '../components/HealthInputForm'
 import HealthSummary from '../components/HealthSummary'
 import GymCard from '../components/GymCard'
 import NutrientPriority from '../components/NutrientPriority'
+import FoodGroups from '../components/FoodGroups'
+import ExerciseScatter from '../components/ExerciseScatter'
 import RecordCard from '../components/RecordCard'
 import SectionDock from '../components/SectionDock'
 import Reveal from '../components/Reveal'
@@ -205,14 +207,7 @@ export default function HomePage() {
             }
           >
             {analysis ? (
-              <div className={styles.foodList}>
-                {foods.map((food) => (
-                  <span className={styles.food} key={food.name}>
-                    {food.name}
-                    <span className={styles.foodTag}>{food.nutrients.join('·')}</span>
-                  </span>
-                ))}
-              </div>
+              <FoodGroups foods={foods} />
             ) : (
               <button type="button" className={styles.linkButton} onClick={goInput}>
                 건강정보 입력하기 →
@@ -233,24 +228,28 @@ export default function HomePage() {
             }
           >
             {analysis ? (
-              <div className={styles.exerciseList}>
-                {exercises.map((exercise) => (
-                  <div className={styles.exercise} key={exercise.key}>
-                    <span className={styles.exerciseName}>{exercise.name}</span>
-                    <span className={styles.exerciseBurn}>
-                      {exercise.burn30 ?? '-'} kcal / 30분
-                    </span>
-                    <span className={styles.exerciseMeta}>
-                      <span className={styles.pill}>{exercise.type}</span>
-                      <span className={styles.pill}>{exercise.intensity}</span>
-                      {exercise.note}
-                      {exercise.minutesForGoal
-                        ? ` 목표 적자를 이 운동만으로 채우면 약 ${exercise.minutesForGoal}분입니다.`
-                        : ''}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <>
+                <ExerciseScatter analysis={analysis} />
+
+                <div className={styles.exerciseList}>
+                  {exercises.map((exercise) => (
+                    <div className={styles.exercise} key={exercise.key}>
+                      <span className={styles.exerciseName}>{exercise.name}</span>
+                      <span className={styles.exerciseBurn}>
+                        {exercise.burn30 ?? '-'} kcal / 30분
+                      </span>
+                      <span className={styles.exerciseMeta}>
+                        <span className={styles.pill}>{exercise.type}</span>
+                        <span className={styles.pill}>{exercise.intensity}</span>
+                        {exercise.note}
+                        {exercise.minutesForGoal
+                          ? ` 목표 적자를 이 운동만으로 채우면 약 ${exercise.minutesForGoal}분입니다.`
+                          : ''}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : (
               <button type="button" className={styles.linkButton} onClick={goInput}>
                 건강정보 입력하기 →
