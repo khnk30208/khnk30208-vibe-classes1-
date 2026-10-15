@@ -1,0 +1,40 @@
+[submodule "agentic-ai/01-harness-engineering"]
+	path = agentic-ai/01-harness-engineering
+	url = https://github.com/walkinglabs/awesome-harness-engineering.git
+	shallow = true
+[submodule "agentic-ai/02-loop-engineering"]
+	path = agentic-ai/02-loop-engineering
+	url = https://github.com/cobusgreyling/loop-engineering.git
+	shallow = true
+[submodule "agentic-ai/03-context-engineering"]
+	path = agentic-ai/03-context-engineering
+	url = https://github.com/yzfly/awesome-context-engineering.git
+	shallow = true
+[submodule "agentic-ai/04-mcp-servers"]
+	path = agentic-ai/04-mcp-servers
+	url = https://github.com/modelcontextprotocol/servers.git
+	shallow = true
+[submodule "agentic-ai/05-agent-memory"]
+	path = agentic-ai/05-agent-memory
+	url = https://github.com/mnemoverse/awesome-agent-memory.git
+	shallow = true
+[submodule "agentic-ai/06-agent-orchestration"]
+	path = agentic-ai/06-agent-orchestration
+	url = https://github.com/vivy-yi/awesome-agent-orchestration.git
+	shallow = true
+[submodule "agentic-ai/07-ai-guardrails"]
+	path = agentic-ai/07-ai-guardrails
+	url = https://github.com/enguard-ai/awesome-ai-guardrails.git
+	shallow = true
+[submodule "agentic-ai/08-agent-evals"]
+	path = agentic-ai/08-agent-evals
+	url = https://github.com/benchflow-ai/awesome-evals.git
+	shallow = true
+[submodule "agentic-ai/09-stateful-agents"]
+	path = agentic-ai/09-stateful-agents
+	url = https://github.com/cloudflare/agents.git
+	shallow = true
+[submodule "agentic-ai/10-agent-observability"]
+	path = agentic-ai/10-agent-observability
+	url = https://github.com/anhermon/awesome-agent-observability.git
+	shallow = true
